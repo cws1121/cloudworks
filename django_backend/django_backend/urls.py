@@ -27,6 +27,5 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    url(r'^(?P<path>.*)$', serve, {'document_root': os.path.join(Path(__file__).resolve().parent, 'static')}),
-    url(r'^(?P<path>.*)$', serve, {'document_root': os.path.join(Path(__file__).resolve().parent, 'staticfiles')}),
+    url(r'^(?P<path>.*)$', serve, {'document_root': os.path.join(Path(__file__).resolve().parent, 'static')})
 ]
