@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rdt.models import TestSession, TestResult
 
 
-class TestSessionSerializer(serializers.ModelSerializer):
+class TestSessionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
       model = TestSession
       fields = ('session_id',
@@ -11,8 +11,9 @@ class TestSessionSerializer(serializers.ModelSerializer):
                 'time_started')
 
 
-class TestResultSerializer(serializers.ModelSerializer):
+class TestResultSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
       model = TestResult
-      fields = ('time_read',
+      fields = ('session',
+                'time_read',
                 'raw_captured_image_file_path')

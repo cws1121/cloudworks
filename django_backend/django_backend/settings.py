@@ -30,7 +30,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'rdt.apps.RdtConfig',
     'rest_framework',
-    'whitenoise.runserver_nostatic'
+    'rest_framework.authtoken',
+    'whitenoise.runserver_nostatic',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -44,6 +46,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
+
 
 ROOT_URLCONF = 'django_backend.urls'
 
