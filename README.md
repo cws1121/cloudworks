@@ -1,7 +1,7 @@
 # cloudworks
 
 
-Web dashbord for [RDToolkit](https://github.com/dimagi/rd-toolkit/tree/master/app/src/main/java/org/rdtoolkit/) app.
+Web dashboard for [RDToolkit](https://github.com/dimagi/rd-toolkit/tree/master/app/src/main/java/org/rdtoolkit/) app.
 Written in Python using the Django web framework.
 
 
