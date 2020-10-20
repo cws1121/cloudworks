@@ -1,4 +1,4 @@
-# cloudworks
+# CLOUDWORKS
 
 
 Web dashboard for [RDToolkit](https://github.com/dimagi/rd-toolkit/tree/master/app/src/main/java/org/rdtoolkit/) app.
