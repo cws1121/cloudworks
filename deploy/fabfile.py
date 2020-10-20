@@ -19,10 +19,10 @@ def deploy():
             with cd('/home/web/www/cloudworks/django_backend'):
                 sudo('git fetch origin')
                 sudo('git reset --hard origin/{}'.format(code_branch))
-                # sudo('python_env/bin/pip install -r requirements/requirements.txt -r requirements/prod-requirements.txt')
+                sudo('python_env/bin/pip install -r requirements/requirements.txt -r requirements/prod-requirements.txt')
                 sudo('python_env/bin/python manage.py collectstatic --no-input')
                 sudo('python_env/bin/python manage.py migrate --no-input')
-                # sudo('sudo ./bin/gunicorn_start')
+                sudo('sudo ./bin/gunicorn_start')
 
 
 @task
