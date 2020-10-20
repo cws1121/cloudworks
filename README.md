@@ -69,3 +69,10 @@ To deploy you need to `pip install -r requirements/deploy-requirements.txt` and 
 cd deploy/
 fab -u web production deploy
 ```
+
+or if your wish to deploy your code and build frontend scripts you can run this command:
+
+```
+cd deploy/
+fab -u web production deploy_and_build
+```
