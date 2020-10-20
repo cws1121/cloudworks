@@ -1,3 +1,5 @@
+SECRET_KEY = 'django_secret_key'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
