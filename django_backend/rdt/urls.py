@@ -1,4 +1,3 @@
-from django.conf.urls import url
 from rest_framework import routers
 from django.urls import include, path
 from rest_framework.authtoken import views as authtoken_views
@@ -18,8 +17,5 @@ urlpatterns = [
   # The obtain_auth_token view will return a JSON response
   # when valid username and password fields are POSTed to the view using form data or JSON:
   # { 'token' : '9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b' }
-  path('api-token-auth/', authtoken_views.obtain_auth_token),
-
-  url(r'^$', views.FrontEndRenderer.as_view()),
-  url(r'^a/', views.FrontEndRenderer.as_view()),
+  path('api-token-auth/', authtoken_views.obtain_auth_token)
 ]
