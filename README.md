@@ -1,7 +1,9 @@
 # cloudworks
 
+
 Web dashbord for [RDToolkit](https://github.com/dimagi/rd-toolkit/tree/master/app/src/main/java/org/rdtoolkit/) app.
 Written in Python using the Django web framework.
+
 
 # Setup instructions
 
@@ -30,7 +32,6 @@ cp local_settings_example.py local_settings.py
 
 Override any values you need.
 
-
 ## install node modules & build ui scripts
 
 ```
@@ -48,9 +49,6 @@ sudo node node_modules/@angular/cli/bin/ng build
 
 # Front End
 
-The front end files are managed with [django-bower](https://github.com/nvbn/django-bower).
-See the project's docs for more information on how to configure and change front-end files.
-
 
 ## Angular
 
@@ -59,6 +57,7 @@ Documentation for Angular 10 [lives here](https://angular.io/docs).
 
 
 # Production Environment
+
 
 ## Deploying
 
