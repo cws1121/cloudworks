@@ -32,7 +32,7 @@
 /ui/typings
 /docs
 /django_backend/local_settings.py
-/django_backend/django_backend/static
+/django_backend/cw_core/static
 
 # e2e
 /ui/e2e/*.js

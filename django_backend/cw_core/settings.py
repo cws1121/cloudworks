@@ -25,11 +25,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'rdt.apps.RdtConfig',
+    'rdt',
     'rest_framework',
-    'rest_framework.authtoken',
     'whitenoise.runserver_nostatic',
-    'django_extensions'
+    'django_extensions',
+    'domain',
+    'cw_core'
 ]
 
 MIDDLEWARE = [
@@ -46,19 +47,18 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
     ]
 }
 
 
-ROOT_URLCONF = 'django_backend.urls'
+ROOT_URLCONF = 'cw_core.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'django_backend/static')],
+        'DIRS': [os.path.join(BASE_DIR, 'cw_core/static')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'django_backend.wsgi.application'
+WSGI_APPLICATION = 'cw_core.wsgi.application'
 
 
 # Database

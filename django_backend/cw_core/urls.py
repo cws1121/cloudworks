@@ -2,13 +2,14 @@ import os
 from pathlib import Path
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import url, include, re_path
+from django.conf.urls import url, include
 from django.views.static import serve
-from django_backend import views
-
+from cw_core import views
+from .router import router
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
     url(r'^', include('rdt.urls'))
 ]
 

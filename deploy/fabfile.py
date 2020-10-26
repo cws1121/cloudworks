@@ -39,4 +39,4 @@ def deploy_and_build():
 
             with cd('/home/web/www/cloudworks/ui'):
                 sudo('npm install')
-                sudo('node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build  --prod --output-path=../django_backend/django_backend/static')
+                sudo('node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build  --prod')

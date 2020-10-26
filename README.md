@@ -43,6 +43,7 @@ sudo node node_modules/@angular/cli/bin/ng build
 ## Run
 
 ```
+cd cloudworks/django_backend
 ./manage.py runserver
 ```
 
@@ -61,7 +62,7 @@ Documentation for Angular 10 [lives here](https://angular.io/docs).
 
 ## Deploying
 
-Anyone with access to the should be able to deploy.
+Anyone with access to the server should be able to deploy.
 
 To deploy you need to `pip install -r requirements/deploy-requirements.txt` and then run the following:
 
