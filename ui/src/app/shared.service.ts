@@ -6,8 +6,8 @@ import { Observable } from "rxjs";
   providedIn: 'root'
 })
 export class SharedService {
-  readonly APIUrl = 'http://34.214.161.14/api';
-  readonly MediaUrl = 'http://34.214.161.14/media';
+  readonly APIUrl = 'http://18.237.137.70/api';
+  readonly MediaUrl = 'http://18.237.137.70/media';
 
   constructor(private http:HttpClient) {}
 
