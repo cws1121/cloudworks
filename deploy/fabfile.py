@@ -6,7 +6,7 @@ from fabric.state import env
 
 @task
 def production():
-    env.hosts = ['34.214.161.14']
+    env.hosts = ['18.237.137.70']
     env.sudo_user = 'root'
     env.web_user = 'web'
 
