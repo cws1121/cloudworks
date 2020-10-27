@@ -2,6 +2,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.parsers import FileUploadParser
 
 from rdt.api.serializers import IngestTestSessionSerializer, MediaSerializer
 from domain.authentication import CollectorAuthentication
@@ -41,6 +42,7 @@ class IngestMedia(WriteOnlyAPIView):
     """
     authentication_classes = [CollectorAuthentication]
     serializer_class = MediaSerializer
+    parser_classes = [FileUploadParser]
 
     def put(self, request, *args, **kwargs):
         request.data['session'] = kwargs.get('guid')

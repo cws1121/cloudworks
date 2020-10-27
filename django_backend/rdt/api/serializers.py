@@ -23,8 +23,6 @@ class MediaSerializer(serializers.ModelSerializer):
     class Meta:
       model = Media
       fields = ('session',
-                'name',
-                'description',
                 'external_id',
                 'file')
 
