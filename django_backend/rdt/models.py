@@ -17,9 +17,9 @@ class TestSession(models.Model):
       (BUILDING, 'BUILDING'),
       (QUEUED, 'QUEUED')
     )
-    session_id = models.CharField(max_length=200, primary_key=True)
-    status = models.CharField(max_length=10, default=COMPLETE, choices=STATUS_CHOICES)
-    test_profile_id = models.CharField(max_length=200, null=True)
+    session_id = models.CharField(primary_key=True)
+    status = models.CharField(default=COMPLETE, choices=STATUS_CHOICES)
+    test_profile_id = models.CharField(null=True)
     time_started = models.DateTimeField(null=True)
     time_resolved = models.DateTimeField(null=True)
     time_expired = models.DateTimeField(null=True)
