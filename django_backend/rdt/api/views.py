@@ -1,3 +1,4 @@
+import json
 from rest_framework.generics import GenericAPIView
 from rest_framework import mixins
 from rest_framework.response import Response
@@ -27,7 +28,9 @@ class IngestTestSession(WriteOnlyAPIView):
     serializer_class = IngestTestSessionSerializer
 
     def put(self, request, *args, **kwargs):
+        request.data['raw_payload'] = json.loads(request.body)
         request.data['id'] = kwargs.get('guid')
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)

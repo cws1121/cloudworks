@@ -15,14 +15,15 @@ class TestSession(models.Model):
       (COMPLETE, 'COMPLETE'),
       (RUNNING, 'RUNNING'),
       (BUILDING, 'BUILDING'),
-      (QUEUED = 'QUEUED')
+      (QUEUED, 'QUEUED')
     )
     session_id = models.CharField(max_length=200, primary_key=True)
     status = models.CharField(max_length=10, default=COMPLETE, choices=STATUS_CHOICES)
-    test_profile_id = models.CharField(max_length=200)
-    time_started = models.DateTimeField()
+    test_profile_id = models.CharField(max_length=200, null=True)
+    time_started = models.DateTimeField(null=True)
     time_resolved = models.DateTimeField(null=True)
     time_expired = models.DateTimeField(null=True)
+    raw_payload = JSONField(default=dict, null=True)
 
 
 class TestResult(models.Model):
@@ -34,8 +35,8 @@ class TestResult(models.Model):
     time_read = models.DateTimeField(null=True)
     raw_captured_image_file_path = models.CharField(max_length=200, null=True)
     # todo: storing results this way is not good for reporting and data analyzing ...
-    results = JSONField(default=dict)
-    classifier_results = JSONField(default=dict)
+    results = JSONField(default=dict, null=True)
+    classifier_results = JSONField(default=dict, null=True)
 
 
 class Media(models.Model):

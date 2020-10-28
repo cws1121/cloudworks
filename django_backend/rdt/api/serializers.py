@@ -8,6 +8,7 @@ class TestSessionSerializer(serializers.HyperlinkedModelSerializer):
       fields = ('session_id',
                 'status',
                 'test_profile_id',
+                'raw_payload',
                 'time_started')
 
 
@@ -30,13 +31,14 @@ class MediaSerializer(serializers.ModelSerializer):
 class IngestTestSessionSerializer(serializers.Serializer):
     id = serializers.CharField(required=True, source='session_id')
     state = serializers.ChoiceField(choices=TestSession.STATUS_CHOICES, default=TestSession.COMPLETE)
-    time_resolved = serializers.DateTimeField()
-    time_started = serializers.DateTimeField()
-    time_expired = serializers.DateTimeField()
+    time_resolved = serializers.DateTimeField(required=False)
+    time_started = serializers.DateTimeField(required=False)
+    time_expired = serializers.DateTimeField(required=False)
     configuration = serializers.JSONField(required=False)
     result = serializers.JSONField(required=False)
     test_profile_id = serializers.CharField(required=True, max_length=200)
     raw_image_file_path = serializers.CharField(required=False, max_length=200)
+    raw_payload = serializers.JSONField(required=False)
 
     def create(self, validated_data):
         """
@@ -48,7 +50,8 @@ class IngestTestSessionSerializer(serializers.Serializer):
             test_profile_id=validated_data.get('test_profile_id'),
             time_resolved=validated_data.get('time_resolved'),
             time_started=validated_data.get('time_started'),
-            time_expired=validated_data.get('time_expired')
+            time_expired=validated_data.get('time_expired'),
+            raw_payload=validated_data.get('raw_payload')
         )
 
         result = validated_data.get('result')
