@@ -28,16 +28,27 @@ class MediaSerializer(serializers.ModelSerializer):
                 'file')
 
 
+class ChoiceFieldNoValidation(serializers.ChoiceField):
+    def to_internal_value(self, data):
+        if data == '' and self.allow_blank:
+            return ''
+
+        try:
+            return self.choice_strings_to_values[str(data)]
+        except KeyError:
+            return ''
+
+
 class IngestTestSessionSerializer(serializers.Serializer):
     id = serializers.CharField(required=True, source='session_id')
-    state = serializers.ChoiceField(choices=TestSession.STATUS_CHOICES, default=TestSession.COMPLETE)
+    state = ChoiceFieldNoValidation(choices=TestSession.STATUS_CHOICES, default=TestSession.COMPLETE, allow_null=True)
     time_resolved = serializers.DateTimeField(required=False)
     time_started = serializers.DateTimeField(required=False)
     time_expired = serializers.DateTimeField(required=False)
     configuration = serializers.JSONField(required=False)
     result = serializers.JSONField(required=False)
-    test_profile_id = serializers.CharField(required=False, max_length=200)
-    raw_image_file_path = serializers.CharField(required=False, max_length=200)
+    test_profile_id = serializers.CharField(required=False)
+    raw_image_file_path = serializers.CharField(required=False)
     raw_payload = serializers.JSONField(required=False)
 
     def create(self, validated_data):
