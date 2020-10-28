@@ -36,7 +36,7 @@ class IngestTestSessionSerializer(serializers.Serializer):
     time_expired = serializers.DateTimeField(required=False)
     configuration = serializers.JSONField(required=False)
     result = serializers.JSONField(required=False)
-    test_profile_id = serializers.CharField(required=True, max_length=200)
+    test_profile_id = serializers.CharField(required=False, max_length=200)
     raw_image_file_path = serializers.CharField(required=False, max_length=200)
     raw_payload = serializers.JSONField(required=False)
 
