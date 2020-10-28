@@ -10,10 +10,12 @@ class TestSession(models.Model):
     COMPLETE = 'COMPLETE'
     RUNNING = 'RUNNING'
     BUILDING = 'BUILDING'
+    QUEUED = 'QUEUED'
     STATUS_CHOICES = (
       (COMPLETE, 'COMPLETE'),
       (RUNNING, 'RUNNING'),
-      (BUILDING, 'BUILDING')
+      (BUILDING, 'BUILDING'),
+      (QUEUED = 'QUEUED')
     )
     session_id = models.CharField(max_length=200, primary_key=True)
     status = models.CharField(max_length=10, default=COMPLETE, choices=STATUS_CHOICES)
