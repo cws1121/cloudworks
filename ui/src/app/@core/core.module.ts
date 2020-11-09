@@ -1,9 +1,9 @@
 import {ModuleWithProviders, NgModule, Optional, SkipSelf} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {NbAuthJWTToken, NbAuthModule, NbDummyAuthStrategy, NbPasswordAuthStrategy} from '@nebular/auth';
+import {NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy} from '@nebular/auth';
 import {NbSecurityModule, NbRoleProvider} from '@nebular/security';
 import {of as observableOf} from 'rxjs';
-
+import {environment} from '../../environments/environment';
 import {throwIfAlreadyLoaded} from './module-import-guard';
 import {
   AnalyticsService,
@@ -111,7 +111,7 @@ export const NB_CORE_PROVIDERS = [
           class: NbAuthJWTToken,
           key: 'token', // this parameter tells where to look for the token
         },
-        baseEndpoint: 'https://cloudworks.dimagi.com',
+        baseEndpoint: environment.base_url,
         login: {
           endpoint: '/account/token-auth/',
           method: 'post',
