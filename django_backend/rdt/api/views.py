@@ -30,6 +30,7 @@ class IngestTestSession(WriteOnlyAPIView):
     def put(self, request, *args, **kwargs):
         request.data['raw_payload'] = json.loads(request.body)
         request.data['id'] = kwargs.get('guid')
+        request.data['domain_id'] = request.user.id
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

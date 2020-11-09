@@ -41,6 +41,7 @@ class ChoiceFieldNoValidation(serializers.ChoiceField):
 
 class IngestTestSessionSerializer(serializers.Serializer):
     id = serializers.CharField(required=True, source='session_id')
+    domain_id = serializers.CharField(required=True)
     state = ChoiceFieldNoValidation(choices=TestSession.STATUS_CHOICES, default=TestSession.COMPLETE, allow_null=True)
     time_resolved = serializers.DateTimeField(required=False)
     time_started = serializers.DateTimeField(required=False)
@@ -58,6 +59,7 @@ class IngestTestSessionSerializer(serializers.Serializer):
         ts_instance = TestSession.objects.create(
             status=validated_data.get('state'),
             session_id=validated_data.get('session_id'),
+            domain_id=validated_data.get('domain_id'),
             test_profile_id=validated_data.get('test_profile_id'),
             time_resolved=validated_data.get('time_resolved'),
             time_started=validated_data.get('time_started'),

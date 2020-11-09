@@ -1,5 +1,6 @@
 from django.db import models
 from jsonfield.fields import JSONField
+from domain.models import Domain
 
 
 class TestSession(models.Model):
@@ -24,6 +25,7 @@ class TestSession(models.Model):
     time_resolved = models.DateTimeField(null=True)
     time_expired = models.DateTimeField(null=True)
     raw_payload = JSONField(default=dict, null=True)
+    domain = models.ForeignKey(Domain, on_delete=models.CASCADE, related_name='sessions')
 
 
 class TestResult(models.Model):
