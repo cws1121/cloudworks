@@ -59,5 +59,9 @@ const components = [
     NbCardModule,
   ],
   declarations: [...routedComponents, ...components],
+  exports:[
+    ChartjsBarComponent,
+    ChartjsMultipleXaxisComponent
+  ]
 })
 export class ChartsModule {}

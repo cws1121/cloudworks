@@ -15,13 +15,12 @@
       </nb-list>
     </nb-card>
   </div>
-
+        <!--listenWindowScroll-->
   <div class="col-md-12 col-lg-6 col-xxxl-6">
     <nb-card>
       <nb-card-header>Window Scroll</nb-card-header>
       <nb-list
         nbInfiniteList
-        listenWindowScroll
         [threshold]="500"
         (bottomThreshold)="loadNext(secondCard)">
         <nb-list-item *ngFor="let newsPost of secondCard.news">

@@ -1,5 +1,5 @@
 import os
-
+import datetime
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -14,6 +14,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'django', '18.237.137.70', 'cloudworks.dimagi.com']
 
+AUTH_USER_MODEL = 'account.User'
 
 # Application definition
 
@@ -30,7 +31,8 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django_extensions',
     'domain',
-    'cw_core'
+    'cw_core',
+    'account'
 ]
 
 MIDDLEWARE = [
@@ -47,11 +49,16 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication'
     ]
 }
 
+JWT_AUTH = {
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=10000),
+}
 
 ROOT_URLCONF = 'cw_core.urls'
 

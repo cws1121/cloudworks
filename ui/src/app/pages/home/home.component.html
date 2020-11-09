@@ -1,0 +1,214 @@
+<div class="row">
+  <ngx-page-header
+    title="Disease Surveillance"
+    description="Surveillance of positive cases of disease, percentages of positive and negative cases, and total readings."
+    icon="map-marked-alt"
+    pack="fas">
+  </ngx-page-header>
+</div>
+<div class="row">
+  <div class="col-md-3">
+    <ngx-status-box
+      title="Total Readings"
+      value="7.8K"
+      icon="globe"
+      pack="fas"></ngx-status-box>
+  </div>
+  <div class="col-md-3">
+    <ngx-status-box
+      title="Total Active Users"
+      value="1.3K"
+      icon="user"
+      pack="fa"></ngx-status-box>
+  </div>
+  <div class="col-md-3">
+    <ngx-status-box
+      title="Accuracy"
+      value="54%"
+      icon="check-square"
+      pack="far"></ngx-status-box>
+  </div>
+  <div class="col-md-3">
+    <ngx-status-box
+      title="Positive Readings"
+      value="354"
+      icon="exclamation-triangle"
+      pack="fas"></ngx-status-box>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xxl-12">
+    <nb-card>
+      <nb-card-header>
+        <nb-icon icon="chart-line" pack="fa"></nb-icon>
+        Heatmap of Positive Readings
+      </nb-card-header>
+      <div echarts [options]="options" class="echarts"></div>
+    </nb-card>
+  </div>
+</div>
+<div class="row">
+  <ngx-page-header
+    title="Operations & Workforce"
+    description='Analyzing user workforce activity, frequency of user outputs matching classifier outputs (ie. "Agreement" or "Disagreement"), and how often results are expired or valid prior to taking the reading.'
+    icon="users"
+    pack="fa">
+  </ngx-page-header>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <nb-card>
+      <nb-card-body style="height: 500px;">
+        <ngx-chartjs-bar></ngx-chartjs-bar>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <nb-card>
+      <nb-card-body style="height: 500px;">
+        <ngx-chartjs-multiple-xaxis></ngx-chartjs-multiple-xaxis>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <nb-card>
+      <nb-card-body>
+        <table datatable [dtOptions]="dtOptions" class="row-border hover">
+          <thead>
+          <tr>
+            <th>Case ID</th>
+            <th>User ID</th>
+            <th>Test Type Shorthand</th>
+            <th>Classifier Used</th>
+            <th>Classifier Output</th>
+            <th>User Output</th>
+            <th>Mode of Verification Used</th>
+            <th>Instructions Read</th>
+            <th>Image Timestamp (Click for Image)</th>
+            <th>Results Expiry</th>
+            <th>Location</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!--<tr *ngFor="let post of posts">-->
+          <!--<td>{{ post.id }}</td>-->
+          <!--<td>{{ post.title }}</td>-->
+          <!--<td>{{ post.body }}</td>-->
+          <!--</tr>-->
+
+          <tr>
+            <td>001213</td>
+            <td>014578</td>
+            <td>SD Bioline P.f / P.v</td>
+            <td>ScanWell</td>
+            <td>pf_pos</td>
+            <td>pf_neg</td>
+            <td>Blind</td>
+            <td>Yes</td>
+            <td>2020-10-12T12:44:00+00:00</td>
+            <td>No</td>
+            <td>Patna, Bihar</td>
+          </tr>
+          <tr>
+            <td>001215</td>
+            <td>014534</td>
+            <td>Care Start Pf / Pv</td>
+            <td>OpenRDT</td>
+            <td>pf_neg</td>
+            <td>pf_neg</td>
+            <td>Pre_Populate</td>
+            <td>No</td>
+            <td>2020-10-22T12:54:00+00:00</td>
+            <td>No</td>
+            <td>Patna, Bihar</td>
+          </tr>
+                    <tr>
+            <td>001213</td>
+            <td>014578</td>
+            <td>SD Bioline P.f / P.v</td>
+            <td>ScanWell</td>
+            <td>pf_pos</td>
+            <td>pf_neg</td>
+            <td>Blind</td>
+            <td>Yes</td>
+            <td>2020-10-12T12:44:00+00:00</td>
+            <td>No</td>
+            <td>Patna, Bihar</td>
+          </tr>
+          <tr>
+            <td>001215</td>
+            <td>014534</td>
+            <td>Care Start Pf / Pv</td>
+            <td>OpenRDT</td>
+            <td>pf_neg</td>
+            <td>pf_neg</td>
+            <td>Pre_Populate</td>
+            <td>No</td>
+            <td>2020-10-22T12:54:00+00:00</td>
+            <td>No</td>
+            <td>Patna, Bihar</td>
+          </tr>
+          <tr>
+            <td>001213</td>
+            <td>014578</td>
+            <td>SD Bioline P.f / P.v</td>
+            <td>ScanWell</td>
+            <td>pf_pos</td>
+            <td>pf_neg</td>
+            <td>Blind</td>
+            <td>Yes</td>
+            <td>2020-10-12T12:44:00+00:00</td>
+            <td>No</td>
+            <td>Patna, Bihar</td>
+          </tr>
+          <tr>
+            <td>001215</td>
+            <td>014534</td>
+            <td>Care Start Pf / Pv</td>
+            <td>OpenRDT</td>
+            <td>pf_neg</td>
+            <td>pf_neg</td>
+            <td>Pre_Populate</td>
+            <td>No</td>
+            <td>2020-10-22T12:54:00+00:00</td>
+            <td>No</td>
+            <td>Patna, Bihar</td>
+          </tr>
+                    <tr>
+            <td>001213</td>
+            <td>014578</td>
+            <td>SD Bioline P.f / P.v</td>
+            <td>ScanWell</td>
+            <td>pf_pos</td>
+            <td>pf_neg</td>
+            <td>Blind</td>
+            <td>Yes</td>
+            <td>2020-10-12T12:44:00+00:00</td>
+            <td>No</td>
+            <td>Patna, Bihar</td>
+          </tr>
+          <tr>
+            <td>001215</td>
+            <td>014534</td>
+            <td>Care Start Pf / Pv</td>
+            <td>OpenRDT</td>
+            <td>pf_neg</td>
+            <td>pf_neg</td>
+            <td>Pre_Populate</td>
+            <td>No</td>
+            <td>2020-10-22T12:54:00+00:00</td>
+            <td>No</td>
+            <td>Patna, Bihar</td>
+          </tr>
+          </tbody>
+        </table>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<style>
+  .border-right-2 {
+    border-right: 2px solid;
+  }
+
+  .timeline-content-box {
+    margin-left: 40px;
+    margin-bottom: 20px;
+    border: 2px solid;
+  }
+
+  .timeline-content-box > .content {
+    padding: 10px;
+  }
+
+  #pointer {
+    border: solid 10px transparent;
+    border-right-color: #fff;
+    position: absolute;
+    margin: 0 0 0 10px;
+  }
+
+  #pointer-icon {
+    position: absolute;
+    right: 0px;
+    top: -12px;
+    margin: 0 -25px 0 0;
+  }
+
+  .timeline-icon {
+    color: #374767;
+    background: #fff;
+    border-radius: 50%;
+    text-align: center;
+    height: 50px;
+    width: 50px;
+    font-size: 15px;
+    padding-top: 7px;
+  }
+  .fa-thermometer-half:before{
+    font-size: 35px;
+  }
+  .timeline-date-box{
+    padding: 0px 20px 10px 10px
+  }
+
+</style>
+
+<div class="row">
+  <div class="col-md-3 border-right-2">
+    <div id="pointer-icon">
+      <nb-icon class="timeline-icon" icon="thermometer-half" pack="fa"></nb-icon>
+    </div>
+    <div class="timeline-date-box">
+      <p>{{post.title}}</p>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div id="pointer"></div>
+    <div class="timeline-content-box">
+      <div class="content">
+        <p>{{post.text}}</p>
+        <a [attr.href]="post.link">Read full article</a>
+      </div>
+    </div>
+  </div>
+</div>

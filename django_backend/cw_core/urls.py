@@ -7,9 +7,11 @@ from django.views.static import serve
 from cw_core import views
 from .router import router
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('account/', include('account.urls')),
     url(r'^', include('rdt.urls'))
 ]
 

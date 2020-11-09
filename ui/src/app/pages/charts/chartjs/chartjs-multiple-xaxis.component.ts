@@ -19,10 +19,10 @@ export class ChartjsMultipleXaxisComponent implements OnDestroy {
       const chartjs: any = config.variables.chartjs;
 
       this.data = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+        labels: ['Oct 16', 'Oct 17', 'Oct 18', 'Oct 19', 'Oct 20', 'Oct 21'],
         datasets: [{
-          label: 'dataset - big points',
-          data: [this.random(), this.random(), this.random(), this.random(), this.random(), this.random()],
+          label: 'Results Valid',
+          data: [80, 82, 86, 92, 90, 81],
           borderColor: colors.primary,
           backgroundColor: colors.primary,
           fill: false,
@@ -30,31 +30,33 @@ export class ChartjsMultipleXaxisComponent implements OnDestroy {
           pointRadius: 8,
           pointHoverRadius: 10,
         }, {
-          label: 'dataset - individual point sizes',
-          data: [this.random(), this.random(), this.random(), this.random(), this.random(), this.random()],
+          label: 'Results Expired',
+          data: [20, 18, 14, 8, 10, 19],
           borderColor: colors.dangerLight,
           backgroundColor: colors.dangerLight,
           fill: false,
           borderDash: [5, 5],
           pointRadius: 8,
           pointHoverRadius: 10,
-        }, {
-          label: 'dataset - large pointHoverRadius',
-          data: [this.random(), this.random(), this.random(), this.random(), this.random(), this.random()],
-          borderColor: colors.info,
-          backgroundColor: colors.info,
-          fill: false,
-          pointRadius: 8,
-          pointHoverRadius: 10,
-        }, {
-          label: 'dataset - large pointHitRadius',
-          data: [this.random(), this.random(), this.random(), this.random(), this.random(), this.random()],
-          borderColor: colors.success,
-          backgroundColor: colors.success,
-          fill: false,
-          pointRadius: 8,
-          pointHoverRadius: 10,
-        }],
+        },
+        //   {
+        //   label: 'dataset - large pointHoverRadius',
+        //   data: [this.random(), this.random(), this.random(), this.random(), this.random(), this.random()],
+        //   borderColor: colors.info,
+        //   backgroundColor: colors.info,
+        //   fill: false,
+        //   pointRadius: 8,
+        //   pointHoverRadius: 10,
+        // }, {
+        //   label: 'dataset - large pointHitRadius',
+        //   data: [this.random(), this.random(), this.random(), this.random(), this.random(), this.random()],
+        //   borderColor: colors.success,
+        //   backgroundColor: colors.success,
+        //   fill: false,
+        //   pointRadius: 8,
+        //   pointHoverRadius: 10,
+        // }
+        ],
       };
 
       this.options = {
@@ -91,7 +93,7 @@ export class ChartjsMultipleXaxisComponent implements OnDestroy {
               display: true,
               scaleLabel: {
                 display: true,
-                labelString: 'Value',
+                labelString: 'Expiry %',
               },
               gridLines: {
                 display: true,

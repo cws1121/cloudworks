@@ -1,0 +1,21 @@
+.infinite-cards {
+  nb-card {
+    &.own-scroll {
+      height: 50vh;
+    }
+  }
+}
+.images-timieline{
+  nb-list{
+    padding-top: 20px;
+  }
+
+  nb-list-item{
+    border-bottom: None;
+    padding-bottom: 0px;
+    padding-top:0px
+  }
+}
+nb-list-item:first-child{
+  border: 0px!important;
+}

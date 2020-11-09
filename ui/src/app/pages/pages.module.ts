@@ -8,8 +8,8 @@ import { ECommerceModule } from './e-commerce/e-commerce.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import {AppComponent} from "../app.component";
-import {TestSessionComponent} from "./test-session/test-session.component";
-import {TestResultComponent} from "./test-result/test-result.component";
+import { TestSessionComponent } from "./test-session/test-session.component";
+import { TestResultComponent } from "./test-result/test-result.component";
 
 @NgModule({
   imports: [

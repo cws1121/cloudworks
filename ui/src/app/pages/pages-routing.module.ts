@@ -7,11 +7,26 @@ import {ECommerceComponent} from './e-commerce/e-commerce.component';
 import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
 import {TestSessionComponent} from "./test-session/test-session.component";
 import {TestResultComponent} from "./test-result/test-result.component";
+import {HomeComponent} from './home/home.component';
 
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
   children: [
+    {
+      path: 'dashboard',
+      component: HomeComponent,
+    },
+    {
+      path: 'files',
+      loadChildren: () => import('./files/files.module')
+        .then(m => m.FilesModule),
+    },
+    {
+      path: 'data',
+      loadChildren: () => import('./data/data.module')
+        .then(m => m.DataModule),
+    },
     {
       path: 'home1',
       component: ECommerceComponent,
@@ -79,7 +94,7 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'test_session',
+      redirectTo: 'dashboard',
       pathMatch: 'full',
     },
     {
