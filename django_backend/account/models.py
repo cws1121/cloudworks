@@ -12,7 +12,7 @@ class User(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     full_name = models.CharField(_("full name"), max_length=200, null=True)
     current_workspace = models.ForeignKey(Domain, on_delete=models.CASCADE, related_name='users')
-    config = JSONField(default=dict, null=True)
+    config = JSONField(default=dict, null=True, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

@@ -17,7 +17,7 @@ class RegisterAccount(generics.GenericAPIView):
         user = serializer.save()
         return Response({
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
-            "message": "User Created Successfully.  Now perform Login to get your token",
+            "message": "User Created Successfully. Now perform Login to get your token",
         })
 
 

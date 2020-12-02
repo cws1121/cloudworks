@@ -3,9 +3,11 @@ from account.models import User
 
 
 class RegisterSerializer(serializers.ModelSerializer):
+    fullName = serializers.CharField(required=True)
+
     class Meta:
         model = User
-        fields = ('id', 'email', 'password', 'full_name')
+        fields = ('id', 'email', 'password', 'fullName')
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -14,7 +16,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(
             email=validated_data['email'],
             password = validated_data['password'],
-            full_name=validated_data['fullName']
+            full_name=validated_data['fullName'],
+            current_workspace_id=1
         )
         return user
 
