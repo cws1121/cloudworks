@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 class Domain(models.Model):
     """
         Domain is the highest level of abstraction
-        in the system.  Pretty much everything happens at the
+        in the system. Pretty much everything happens at the
         domain-level, including user membership, permission to
         see data, reports, charts, etc.
    """

@@ -13,7 +13,10 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    req = req.clone({headers: req.headers.set('Authorization', 'JWT ' + this._authService.getToken())});
+
+    this._authService.getToken().subscribe(token =>
+      req = req.clone({headers: req.headers.set('Authorization', 'JWT ' + token)}));
+
     return next.handle(req);
   }
 }

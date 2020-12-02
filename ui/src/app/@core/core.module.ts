@@ -134,6 +134,7 @@ export const NB_CORE_PROVIDERS = [
           method: 'post',
         },
         resetPass: {
+          resetPasswordTokenKey: 'token',
           endpoint: '/account/reset-pass/',
           method: 'post',
         },

@@ -7,18 +7,9 @@ import {Component, OnInit} from '@angular/core';
 })
 export class CaseDataComponent implements OnInit {
 
-  title = 'datatables';
-  dtOptions: DataTables.Settings = {};
-
   constructor() {
   }
 
-  ngOnInit(): void {
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 5,
-      processing: true
-    };
-  }
+  ngOnInit(): void {}
 
 }

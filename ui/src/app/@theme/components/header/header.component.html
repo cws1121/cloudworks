@@ -3,14 +3,20 @@
     <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
       <nb-icon icon="menu-2-outline"></nb-icon>
     </a>
-    <a class="logo" href="#" (click)="navigateHome()">CloudWorks</a>
+    <a class="logo" href="#" (click)="navigateHome()">
+      <span *ngIf="domain; else cloudworks_block">{{domain.name}}</span>
+      <ng-template #cloudworks_block>CloudWorks</ng-template>
+    </a>
   </div>
 </div>
 
 <div class="header-container">
   <nb-actions size="small">
     <nb-action class="control-item">
-      <input nbInput placeholder="Range Picker" [nbDatepicker]="rangepicker">
+      <input nbInput placeholder="Range Picker"
+             [nbDatepicker]="rangepicker"
+             [(ngModel)]="dateRange"
+             (ngModelChange)="updateDateRange($event)">
       <nb-rangepicker #rangepicker></nb-rangepicker>
     </nb-action>
     <nb-action class="control-item">
@@ -23,7 +29,7 @@
         nbContextMenuTag="user-context-menu"
         [nbContextMenu]="userMenu"
         [onlyPicture]="userPictureOnly"
-        [name]="user?.name"
+        [name]="user?.full_name"
         [picture]="user?.picture">
       </nb-user>
     </nb-action>

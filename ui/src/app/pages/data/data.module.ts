@@ -6,10 +6,6 @@ import {DataRoutingModule} from './data-routing.module';
 import {DataComponent} from './data.component';
 import {NbCardModule, NbIconModule} from '@nebular/theme';
 import {SharedModule} from '../shared/shared.module';
-import {DataTablesModule} from 'angular-datatables';
-import {ChartsModule} from '../charts/charts.module';
-import {NgxEchartsModule} from 'ngx-echarts';
-import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [CaseDataComponent, HeatmapComponent, DataComponent],
@@ -18,11 +14,8 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
     DataRoutingModule,
     NbCardModule,
     SharedModule,
-    DataTablesModule,
-    NgxEchartsModule,
-    NgxChartsModule,
-    NbIconModule,
-    ChartsModule
-  ]
+    NbIconModule
+  ],
+  exports: []
 })
 export class DataModule { }

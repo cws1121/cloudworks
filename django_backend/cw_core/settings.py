@@ -32,7 +32,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'domain',
     'cw_core',
-    'account'
+    'account',
+    'ng'
 ]
 
 MIDDLEWARE = [
@@ -57,7 +58,7 @@ REST_FRAMEWORK = {
 
 JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=10000),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=1000000),
 }
 
 ROOT_URLCONF = 'cw_core.urls'
@@ -65,7 +66,7 @@ ROOT_URLCONF = 'cw_core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'cw_core/static')],
+        'DIRS': [os.path.join(BASE_DIR, 'cw_core/static'), os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,6 +78,10 @@ TEMPLATES = [
         },
     },
 ]
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+)
 
 WSGI_APPLICATION = 'cw_core.wsgi.application'
 

@@ -12,6 +12,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('account/', include('account.urls')),
+    path('ng/', include('ng.urls')),
     url(r'^', include('rdt.urls'))
 ]
 
