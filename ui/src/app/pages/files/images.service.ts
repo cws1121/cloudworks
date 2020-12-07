@@ -1,30 +1,29 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
-
-const TOTAL_PAGES = 7;
+import {delay, filter, map} from 'rxjs/operators';
+import { SharedService } from '../../shared.service';
 
 export class ImagePost {
-  title: string;
-  link: string;
-  creator: string;
-  text: string;
+  file: string;
+  uploaded_at: string;
+  external_id: string;
 }
 
 @Injectable()
 export class ImagesService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private sharedService: SharedService) {}
 
   load(page: number, pageSize: number): Observable<ImagePost[]> {
-    const startIndex = ((page - 1) % TOTAL_PAGES) * pageSize;
+    console.log()
+    console.log(page)
 
-    return this.http
-      .get<ImagePost[]>('assets/data/images.json')
+    const startIndex = (page - 1) * pageSize;
+
+    return this.sharedService.rdtImagesList
       .pipe(
-        map(image => image.splice(startIndex, pageSize)),
-        delay(1500),
-      );
+        filter(images => !!images.data),
+        map(images => images['data']['rdt_images'].splice(startIndex, pageSize)),
+      )
   }
 }

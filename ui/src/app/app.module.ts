@@ -24,7 +24,6 @@ import {SharedService} from './shared.service';
 import {AuthGuardService} from './auth-guard.service';
 import {InterceptorService} from './interceptor.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NbPasswordAuthStrategy, NbAuthModule, NbAuthJWTToken} from '@nebular/auth';
 
 @NgModule({
   declarations: [AppComponent],

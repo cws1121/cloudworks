@@ -52,15 +52,17 @@
       <nb-icon class="timeline-icon" icon="thermometer-half" pack="fa"></nb-icon>
     </div>
     <div class="timeline-date-box">
-      <p>{{post.title}}</p>
+      <p>{{post.uploaded_at}}</p>
     </div>
   </div>
   <div class="col-md-9">
     <div id="pointer"></div>
     <div class="timeline-content-box">
       <div class="content">
-        <p>{{post.text}}</p>
-        <a [attr.href]="post.link">Read full article</a>
+        <img src="{{post.file}}" width="100%">
+        <div class="text-content">
+          <p>{{post.external_id}}</p>
+        </div>
       </div>
     </div>
   </div>

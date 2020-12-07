@@ -8,8 +8,8 @@ from rest_framework import status
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from account.serializers import UserSerializer
 from domain.serializers import DomainSerializer
-from rdt.models import TestSession, TestResult
-from rdt.api.serializers import TestSessionSerializer, TestResultSerializer
+from rdt.models import TestSession, TestResult, Media
+from rdt.api.serializers import TestSessionSerializer, TestResultSerializer, MediaSerializer
 
 
 class Context(GenericAPIView):
@@ -98,18 +98,17 @@ class RdtImagesView(GenericAPIView):
         start = datetime.strptime(body.get('start_date'), "%Y-%m-%d").date()
         end = datetime.strptime(body.get('end_date'), "%Y-%m-%d").date()
 
-        tr_records = TestResult.objects.filter(
+        media_records = Media.objects.filter(
             session__domain=request.user.current_workspace,
-            time_read__gte=start,
-            time_read__lte=end,
-        )
-        tr_serializer = TestResultSerializer(tr_records, many=True)
+            uploaded_at__gte=start,
+            uploaded_at__lte=end,
+        ).order_by('-uploaded_at')
+        media_serializer = MediaSerializer(media_records, many=True)
 
         return Response({
             'status': 'success',
             'code': status.HTTP_200_OK,
             'data': {
-                'test_results': tr_serializer.data
+                'rdt_images': media_serializer.data
             }
         })
-

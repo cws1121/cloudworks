@@ -6,7 +6,8 @@ class MediaSerializer(serializers.ModelSerializer):
     class Meta:
       model = Media
       fields = ('external_id',
-                'file')
+                'file',
+                'uploaded_at')
 
 
 class TestSessionSerializer(serializers.ModelSerializer):

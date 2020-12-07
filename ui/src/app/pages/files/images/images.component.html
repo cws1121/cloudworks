@@ -1,10 +1,11 @@
 <div class="row">
     <ngx-page-header
-      title="RDT Image Database (Last Synced: Oct 14, 2020)"
+      title="RDT Image Database"
       description="Image assets from frontline devices in your project using CloudWorks for reading verification purposes."
       icon="band-aid"
       pack="fas">
     </ngx-page-header>
+     <!--title="RDT Image Database (Last Synced: Oct 14, 2020)"-->
 </div>
 <div class="infinite-cards row images-timieline">
   <div class="col-md-12 col-lg-12 col-xxxl-12">
@@ -13,9 +14,9 @@
         nbInfiniteList
         listenWindowScroll
         [threshold]="500"
-        (bottomThreshold)="loadNext(secondCard)">
+        (bottomThreshold)="loadNext()">
         <nb-list-item *ngFor="let imagePost of secondCard.images">
-          <ngx-rdt-image [post]="imagePost"></ngx-rdt-image>
+          <ngx-rdt-image [post]="imagePost" style="width: 100%"></ngx-rdt-image>
         </nb-list-item>
         <nb-list-item *ngFor="let _ of secondCard.placeholders">
           <ngx-rdt-image-placeholder></ngx-rdt-image-placeholder>

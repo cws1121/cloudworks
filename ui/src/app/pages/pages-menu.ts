@@ -53,16 +53,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //   group: true,
   // },
   // {
-  //   title: 'Test Sessions',
-  //   icon: 'layers',
-  //   link: '/a/pages/test_session',
-  // },
-  // {
-  //   title: 'Test Results',
-  //   icon: 'eye',
-  //   link: '/a/pages/test_result',
-  // },
-  // {
   //   title: 'HOME PAGES',
   //   group: true,
   // },

@@ -23,7 +23,7 @@ export class SharedService {
   rdtImagesList = this.rdtImagesStream.asObservable();
 
   constructor(private http: HttpClient) {
-    this.updateContext()
+    this.updateContext();
     this.reloadDateRange();
   }
 
@@ -60,7 +60,7 @@ export class SharedService {
       })
       .subscribe(
         (data: any) => {
-          this.testResultStream.next(data);
+          this.rdtImagesStream.next(data);
         },
         (err: any) => console.error('rdtImagesList: ERROR')
       );

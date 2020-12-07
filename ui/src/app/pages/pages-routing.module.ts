@@ -5,8 +5,6 @@ import {PagesComponent} from './pages.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {ECommerceComponent} from './e-commerce/e-commerce.component';
 import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
-import {TestSessionComponent} from "./test-session/test-session.component";
-import {TestResultComponent} from "./test-result/test-result.component";
 import {HomeComponent} from './home/home.component';
 
 const routes: Routes = [{
@@ -35,13 +33,6 @@ const routes: Routes = [{
       path: 'home2',
       component: DashboardComponent,
     },
-    {
-      path: 'test_session',
-      component: TestSessionComponent
-    },
-    {
-      path: 'test_result',
-      component: TestResultComponent},
     {
       path: 'layout',
       loadChildren: () => import('./layout/layout.module')
