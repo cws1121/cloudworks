@@ -46,7 +46,7 @@ class Media(models.Model):
     Files associated with test session
     """
 
-    session = models.ForeignKey(TestSession, on_delete=models.CASCADE)
+    session = models.ForeignKey(TestSession, on_delete=models.CASCADE, related_name='media_list')
     name = models.CharField(max_length=255, blank=True, null=True)
     original_file_name = models.CharField(max_length=255, blank=True, null=True)
     external_id = models.CharField(max_length=255)

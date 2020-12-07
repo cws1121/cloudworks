@@ -2,30 +2,27 @@ from rest_framework import serializers
 from rdt.models import TestSession, TestResult, Media
 
 
-class TestSessionSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-      model = TestSession
-      fields = ('session_id',
-                'status',
-                'test_profile_id',
-                'raw_payload',
-                'time_started')
-
-
-class TestResultSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-      model = TestResult
-      fields = ('session',
-                'time_read',
-                'raw_captured_image_file_path')
-
-
 class MediaSerializer(serializers.ModelSerializer):
     class Meta:
       model = Media
-      fields = ('session',
-                'external_id',
+      fields = ('external_id',
                 'file')
+
+
+class TestSessionSerializer(serializers.ModelSerializer):
+    media_list = MediaSerializer(many=True)
+
+    class Meta:
+      model = TestSession
+      fields = '__all__'
+
+
+class TestResultSerializer(serializers.ModelSerializer):
+    session = TestSessionSerializer()
+
+    class Meta:
+      model = TestResult
+      fields = '__all__'
 
 
 class ChoiceFieldNoValidation(serializers.ChoiceField):

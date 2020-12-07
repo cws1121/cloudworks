@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, BehaviorSubject} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 import {environment} from '../environments/environment';
 import * as moment from 'moment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,15 +11,20 @@ import * as moment from 'moment';
 export class SharedService {
   readonly NgAPIUrl = environment.base_url + '/ng';
 
-  //init date range
-  startDate = moment().subtract(30, 'days');
-  endDate = moment();
+  dateRange = {startDate: moment().subtract(30, 'days'), endDate: moment()};
 
   private contextStream = new BehaviorSubject<any>([]);
   currentContext = this.contextStream.asObservable();
 
-  constructor(private http: HttpClient) {
+  private testResultStream = new BehaviorSubject<any>([]);
+  testResultList = this.testResultStream.asObservable();
 
+  private rdtImagesStream = new BehaviorSubject<any>([]);
+  rdtImagesList = this.rdtImagesStream.asObservable();
+
+  constructor(private http: HttpClient) {
+    this.updateContext()
+    this.reloadDateRange();
   }
 
   updateContext() {
@@ -32,15 +38,36 @@ export class SharedService {
       );
   }
 
-  getTestSessionList(): Observable<any[]> {
-    return this.http.get<any[]>(this.NgAPIUrl + '/test_session_list/');
+  updateTestResultList() {
+    this.http
+      .post(this.NgAPIUrl + '/test_result_list/', {
+        start_date: this.dateRange.startDate.format('YYYY-MM-DD'),
+        end_date: this.dateRange.endDate.format('YYYY-MM-DD'),
+      })
+      .subscribe(
+        (data: any) => {
+          this.testResultStream.next(data);
+        },
+        (err: any) => console.error('updateTestResultList: ERROR')
+      );
   }
 
-  // addTestSession(val: any) {
-  //   return this.http.post(this.NgAPIUrl + '/test_session/', val);
-  // }
-  //
-  // getTestResultList(): Observable<any[]> {
-  //   return this.http.get<any[]>(this.NgAPIUrl + '/test_result/');
-  // }
+  updateRdtImagesList() {
+    this.http
+      .post(this.NgAPIUrl + '/rdt_images_list/', {
+        start_date: this.dateRange.startDate.format('YYYY-MM-DD'),
+        end_date: this.dateRange.endDate.format('YYYY-MM-DD'),
+      })
+      .subscribe(
+        (data: any) => {
+          this.testResultStream.next(data);
+        },
+        (err: any) => console.error('rdtImagesList: ERROR')
+      );
+  }
+
+  reloadDateRange() {
+    this.updateTestResultList();
+    this.updateRdtImagesList();
+  }
 }

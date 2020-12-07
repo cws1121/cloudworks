@@ -1,11 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService} from '@nebular/theme';
 import {Router} from '@angular/router';
-import {UserData} from '../../../@core/data/users';
 import {LayoutService} from '../../../@core/utils';
 import {map, takeUntil, filter} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-import {NbAuthService, NbAuthJWTToken, NbTokenService} from '@nebular/auth';
+import {NbAuthService, NbTokenService} from '@nebular/auth';
 import {SharedService} from '../../../shared.service';
 import * as moment from 'moment';
 
@@ -49,28 +48,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
               private themeService: NbThemeService,
-              private userService: UserData,
               private sharedService: SharedService,
               private layoutService: LayoutService,
               private breakpointService: NbMediaBreakpointsService,
               private authService: NbAuthService,
               private router: Router,
               private tokenService: NbTokenService) {
-
-    // this.authService.onTokenChange()
-    //   .subscribe((token: NbAuthJWTToken) => {
-    //
-    //     if (token.isValid()) {
-    //       this.user = token.getPayload(); // here we receive a payload from the token and assigns it to our `user` variable
-    //     }
-    //
-    //   });
-
   }
 
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
-    this.sharedService.updateContext();
     this.sharedService.currentContext
       .pipe(filter(context => !!context.data))
       .subscribe(context => {
@@ -78,10 +65,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.user = context.data.user;
         this.domain = context.data.domain;
       });
-
-    // this.userService.getUsers()
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe((users: any) => this.user = users.nemanja);
 
     const {xl} = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()
@@ -112,8 +95,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
 
       this.dateRange = {
-        start: this.sharedService.startDate.toDate(),
-        end: this.sharedService.endDate.toDate(),
+        start: this.sharedService.dateRange.startDate.toDate(),
+        end: this.sharedService.dateRange.endDate.toDate(),
       };
   }
 
@@ -134,10 +117,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   updateDateRange(event: any){
-    // Broadcast a signal here??
     if (event.start && event.end){
-      this.sharedService.startDate = moment(event.start)
-      this.sharedService.endDate = moment(event.end)
+      this.sharedService.dateRange.startDate = moment(event.start);
+      this.sharedService.dateRange.endDate = moment(event.end);
+      this.sharedService.reloadDateRange()
     }
   }
 

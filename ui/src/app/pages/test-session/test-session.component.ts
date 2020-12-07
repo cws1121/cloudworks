@@ -14,13 +14,12 @@ export class TestSessionComponent implements OnInit {
   TestSessionList:any = []
 
   ngOnInit(): void {
-    this.refreshTestSessionList();
+    // this.refreshTestSessionList();
   }
 
-  refreshTestSessionList(){
-    this.service.getTestSessionList().subscribe(data=>{
-      this.TestSessionList = data;
-    })
-  }
-
+  // refreshTestSessionList(){
+  //   this.service.getTestSessionList().subscribe(data=>{
+  //     this.TestSessionList = data;
+  //   })
+  // }
 }
