@@ -10,7 +10,11 @@ import {filter} from 'rxjs/operators';
 })
 export class HomeComponent implements OnInit {
 
-  dashboardStats = {}
+  dashboardStats = {
+    total_readings: 'N/A',
+    positive_readings: 'N/A',
+    concordance: 'N/A'
+  }
 
   constructor(private sharedService: SharedService) {}
 

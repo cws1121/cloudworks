@@ -10,7 +10,7 @@
   <div class="col-md-3">
     <ngx-status-box
       title="Total Readings"
-      value="{{dashboardStats.total_readings || 'N/A'}}"
+      value="{{dashboardStats.total_readings}}"
       icon="globe"
       pack="fas"></ngx-status-box>
   </div>
@@ -24,14 +24,14 @@
   <div class="col-md-3">
     <ngx-status-box
       title="Accuracy"
-      value="{{dashboardStats.concordance || 'N/A'}}%"
+      value="{{dashboardStats.concordance}}%"
       icon="check-square"
       pack="far"></ngx-status-box>
   </div>
   <div class="col-md-3">
     <ngx-status-box
       title="Positive Readings"
-      value="{{dashboardStats.positive_readings || 'N/A'}}"
+      value="{{dashboardStats.positive_readings}}"
       icon="exclamation-triangle"
       pack="fas"></ngx-status-box>
   </div>
