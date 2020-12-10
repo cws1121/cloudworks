@@ -6,5 +6,5 @@ urlpatterns = [
     url(r'^test_session_list/', views.TestSessionView.as_view()),
     url(r'^test_result_list/', views.TestResultView.as_view()),
     url(r'^rdt_images_list/', views.RdtImagesView.as_view()),
-
+    url(r'^dashboard_stats/', views.DashboardStatsView.as_view()),
 ]

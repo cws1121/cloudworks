@@ -14,8 +14,10 @@ import {ThemeModule} from '../../@theme/theme.module';
 import {HomeComponent} from './home.component';
 import {SharedModule} from '../shared/shared.module';
 import {ECommerceModule} from '../e-commerce/e-commerce.module';
-import {ChartsModule} from '../charts/charts.module';
 import {StatusBoxComponent} from './status-box/status-box.component';
+import {BarChartReadingsComponent} from './bar-chart-readings/bar-chart-readings.component';
+import {ChartModule} from 'angular2-chartjs';
+import {XaxisChartValidityComponent} from './xaxis-chart-validity/xaxis-chart-validity.component';
 
 @NgModule({
   imports: [
@@ -28,13 +30,15 @@ import {StatusBoxComponent} from './status-box/status-box.component';
     NbSelectModule,
     NbListModule,
     NbProgressBarModule,
-    ChartsModule,
     SharedModule,
-    ECommerceModule
+    ECommerceModule,
+    ChartModule,
   ],
   declarations: [
     HomeComponent,
-    StatusBoxComponent
+    StatusBoxComponent,
+    BarChartReadingsComponent,
+    XaxisChartValidityComponent
   ],
   providers: [],
 })

@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {registerMap} from 'echarts';
+import {SharedService} from '../../shared.service';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-home',
@@ -8,8 +10,15 @@ import {registerMap} from 'echarts';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() {}
+  dashboardStats = {}
 
-  ngOnInit(): void {}
+  constructor(private sharedService: SharedService) {}
 
+  ngOnInit(): void {
+    this.sharedService.dashboardStats
+      .pipe(filter(results => !!results.data))
+      .subscribe(result=>{
+      this.dashboardStats = result.data
+    })
+  }
 }

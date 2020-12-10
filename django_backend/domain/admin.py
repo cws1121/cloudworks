@@ -8,7 +8,9 @@ from domain.models import Domain, Token, TokenProxy
 
 
 class TokenChangeList(ChangeList):
-    """Map to matching Domain id"""
+    """
+    Map to matching Domain id
+    """
     def url_for_result(self, result):
         pk = result.domain.pk
         return reverse('admin:%s_%s_change' % (self.opts.app_label,

@@ -7,11 +7,11 @@ from django.contrib.auth.models import User
 
 class Domain(models.Model):
     """
-        Domain is the highest level of abstraction
-        in the system. Pretty much everything happens at the
-        domain-level, including user membership, permission to
-        see data, reports, charts, etc.
-   """
+    Domain is the highest level of abstraction
+    in the system. Pretty much everything happens at the
+    domain-level, including user membership, permission to
+    see data, reports, charts, etc.
+    """
 
     name = models.CharField(max_length=200)
     description = models.TextField()
@@ -26,6 +26,7 @@ class Token(models.Model):
     """
     The default authorization token model.
     """
+
     key = models.CharField(_("Key"), max_length=40, primary_key=True)
     domain = models.OneToOneField(
         Domain, related_name='auth_token',
@@ -50,6 +51,7 @@ class TokenProxy(Token):
     """
     Proxy mapping pk to domain pk for use in admin.
     """
+
     @property
     def pk(self):
         return self.domain.pk

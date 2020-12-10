@@ -41,6 +41,33 @@ class TestResult(models.Model):
     classifier_results = JSONField(default=dict, null=True)
 
 
+    @property
+    def positive(self):
+        return TestResult.objects.filter(
+            user__enterprise=self,
+            is_sample=True
+        ).count() > 0
+
+    @property
+    def has_clasifier_result(self):
+        return bool(self.classifier_results)
+
+    @property
+    def has_user_result(self):
+        return bool(self.results)
+
+    @property
+    def has_both_results(self):
+        return bool(self.results) and bool(self.classifier_results)
+
+    @property
+    def concordance(self):
+        if bool(self.results) and bool(self.classifier_results):
+            if self.results == self.classifier_results:
+                return True
+        return False
+
+
 class Media(models.Model):
     """
     Files associated with test session
