@@ -17,7 +17,6 @@ import { FilesComponent } from './files.component';
 import { ImagesComponent } from './images/images.component';
 import { RdtImageComponent } from './images/rdt-image/rdt-image.component';
 import { RdtImagePlaceholderComponent } from './images/rdt-image-placeholder/rdt-image-placeholder.component';
-import { ImagesService } from './images.service';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
@@ -43,8 +42,6 @@ import { SharedModule } from '../shared/shared.module';
     ImagesComponent,
     RdtImageComponent,
   ],
-  providers: [
-    ImagesService,
-  ],
+  providers: [],
 })
 export class FilesModule { }

@@ -1,6 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {ProfitBarAnimationChartData} from '../../../@core/data/profit-bar-animation-chart';
-import {takeWhile} from 'rxjs/operators';
 import {NbIconLibraries} from '@nebular/theme';
 
 @Component({
@@ -16,22 +15,17 @@ export class StatusBoxComponent implements OnInit {
   @Input() value: string;
   @Input() icon: string;
   @Input() pack: string;
-
-  linesData: { firstLine: number[]; secondLine: number[] };
+  @Input() linesData: { firstLine: number[]; secondLine: number[] } = {
+    firstLine: [],
+    secondLine: [],
+  };
 
   constructor(private profitBarAnimationChartService: ProfitBarAnimationChartData, iconsLibrary: NbIconLibraries) {
     iconsLibrary.registerFontPack('fa', {packClass: 'fa', iconClassPrefix: 'fa'});
     iconsLibrary.registerFontPack('far', {packClass: 'far', iconClassPrefix: 'fa'});
     iconsLibrary.registerFontPack('fas', {packClass: 'fas', iconClassPrefix: 'fa'});
-
-    this.profitBarAnimationChartService.getChartData()
-      .pipe(takeWhile(() => this.alive))
-      .subscribe((linesData) => {
-        this.linesData = linesData;
-      });
   }
 
   ngOnInit(): void {
   }
-
 }

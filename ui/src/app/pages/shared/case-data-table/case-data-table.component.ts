@@ -3,6 +3,7 @@ import {SharedService} from '../../../shared.service';
 import {Subject} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {DataTableDirective} from 'angular-datatables';
+import * as moment from 'moment';
 
 @Component({
   selector: 'ngx-case-data-table',
@@ -36,7 +37,9 @@ export class CaseDataTableComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngAfterViewInit(): void {this.dtTrigger.next();}
+  ngAfterViewInit(): void {
+    this.dtTrigger.next();
+  }
 
   rerender(): void {
     if (this.dtElement && this.dtElement.dtInstance) {
@@ -45,6 +48,23 @@ export class CaseDataTableComponent implements OnInit, OnDestroy {
         this.dtTrigger.next();
       });
     }
+  }
+
+  formatResults(resultJson) {
+    resultJson = JSON.parse(resultJson.replace(/'/g, '"'));
+    let output = '';
+    for (var key in resultJson) {
+      output += resultJson[key] + '; ';
+    }
+    return output || 'N/A';
+  }
+
+  formatDateTimeString(dateTime) {
+    if (dateTime) {
+      dateTime = moment.utc(dateTime, 'YYYY-MM-DD hh:mm A');
+      return moment(dateTime).local().format('YYYY-MM-DD hh:mm A');
+    }
+    return dateTime || 'N/A'
   }
 
   ngOnDestroy(): void {

@@ -14,128 +14,24 @@
             <th>Mode of Verification Used</th>
             <th>Instructions Read</th>
             <th>Image Timestamp (Click for Image)</th>
-            <th>Results Expiry</th>
+            <th style="min-width: 80px">Results Expiry</th>
             <th>Location</th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let item of testResultList">
             <td>{{item.session.session_id}}</td>
-            <td>/</td>
+            <td>N/A</td>
             <td>{{item.session.test_profile_id}}</td>
-            <td>/</td>
-            <td>{{item.classifier_results}}</td>
-            <td>{{item.results}}</td>
-            <td>/</td>
-            <td>/</td>
-            <td><a href="{{item.session.media_list[0] && item.session.media_list[0].file}}" target="_blank">{{item.time_read}}</a></td>
-            <td>/</td>
-            <td>/</td>
+            <td>N/A</td>
+            <td>{{formatResults(item.classifier_results)}}</td>
+            <td>{{formatResults(item.results)}}</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td><a href="{{item.session.media_list[0] && item.session.media_list[0].file}}" target="_blank">{{formatDateTimeString(item.time_read) }}</a></td>
+            <td>{{formatDateTimeString(item.session.time_expired) }}</td>
+            <td>N/A</td>
           </tr>
-          <!--<tr>-->
-          <!--<td>001213</td>-->
-          <!--<td>014578</td>-->
-          <!--<td>SD Bioline P.f / P.v</td>-->
-          <!--<td>ScanWell</td>-->
-          <!--<td>pf_pos</td>-->
-          <!--<td>pf_neg</td>-->
-          <!--<td>Blind</td>-->
-          <!--<td>Yes</td>-->
-          <!--<td>2020-10-12T12:44:00+00:00</td>-->
-          <!--<td>No</td>-->
-          <!--<td>Patna, Bihar</td>-->
-          <!--</tr>-->
-          <!--<tr>-->
-          <!--<td>001215</td>-->
-          <!--<td>014534</td>-->
-          <!--<td>Care Start Pf / Pv</td>-->
-          <!--<td>OpenRDT</td>-->
-          <!--<td>pf_neg</td>-->
-          <!--<td>pf_neg</td>-->
-          <!--<td>Pre_Populate</td>-->
-          <!--<td>No</td>-->
-          <!--<td>2020-10-22T12:54:00+00:00</td>-->
-          <!--<td>No</td>-->
-          <!--<td>Patna, Bihar</td>-->
-          <!--</tr>-->
-          <!--<tr>-->
-          <!--<td>001213</td>-->
-          <!--<td>014578</td>-->
-          <!--<td>SD Bioline P.f / P.v</td>-->
-          <!--<td>ScanWell</td>-->
-          <!--<td>pf_pos</td>-->
-          <!--<td>pf_neg</td>-->
-          <!--<td>Blind</td>-->
-          <!--<td>Yes</td>-->
-          <!--<td>2020-10-12T12:44:00+00:00</td>-->
-          <!--<td>No</td>-->
-          <!--<td>Patna, Bihar</td>-->
-          <!--</tr>-->
-          <!--<tr>-->
-          <!--<td>001215</td>-->
-          <!--<td>014534</td>-->
-          <!--<td>Care Start Pf / Pv</td>-->
-          <!--<td>OpenRDT</td>-->
-          <!--<td>pf_neg</td>-->
-          <!--<td>pf_neg</td>-->
-          <!--<td>Pre_Populate</td>-->
-          <!--<td>No</td>-->
-          <!--<td>2020-10-22T12:54:00+00:00</td>-->
-          <!--<td>No</td>-->
-          <!--<td>Patna, Bihar</td>-->
-          <!--</tr>-->
-          <!--<tr>-->
-          <!--<td>001213</td>-->
-          <!--<td>014578</td>-->
-          <!--<td>SD Bioline P.f / P.v</td>-->
-          <!--<td>ScanWell</td>-->
-          <!--<td>pf_pos</td>-->
-          <!--<td>pf_neg</td>-->
-          <!--<td>Blind</td>-->
-          <!--<td>Yes</td>-->
-          <!--<td>2020-10-12T12:44:00+00:00</td>-->
-          <!--<td>No</td>-->
-          <!--<td>Patna, Bihar</td>-->
-          <!--</tr>-->
-          <!--<tr>-->
-          <!--<td>001215</td>-->
-          <!--<td>014534</td>-->
-          <!--<td>Care Start Pf / Pv</td>-->
-          <!--<td>OpenRDT</td>-->
-          <!--<td>pf_neg</td>-->
-          <!--<td>pf_neg</td>-->
-          <!--<td>Pre_Populate</td>-->
-          <!--<td>No</td>-->
-          <!--<td>2020-10-22T12:54:00+00:00</td>-->
-          <!--<td>No</td>-->
-          <!--<td>Patna, Bihar</td>-->
-          <!--</tr>-->
-          <!--<tr>-->
-          <!--<td>001213</td>-->
-          <!--<td>014578</td>-->
-          <!--<td>SD Bioline P.f / P.v</td>-->
-          <!--<td>ScanWell</td>-->
-          <!--<td>pf_pos</td>-->
-          <!--<td>pf_neg</td>-->
-          <!--<td>Blind</td>-->
-          <!--<td>Yes</td>-->
-          <!--<td>2020-10-12T12:44:00+00:00</td>-->
-          <!--<td>No</td>-->
-          <!--<td>Patna, Bihar</td>-->
-          <!--</tr>-->
-          <!--<tr>-->
-          <!--<td>001215</td>-->
-          <!--<td>014534</td>-->
-          <!--<td>Care Start Pf / Pv</td>-->
-          <!--<td>OpenRDT</td>-->
-          <!--<td>pf_neg</td>-->
-          <!--<td>pf_neg</td>-->
-          <!--<td>Pre_Populate</td>-->
-          <!--<td>No</td>-->
-          <!--<td>2020-10-22T12:54:00+00:00</td>-->
-          <!--<td>No</td>-->
-          <!--<td>Patna, Bihar</td>-->
-          <!--</tr>-->
           </tbody>
         </table>
       </nb-card-body>

@@ -11,20 +11,23 @@
     <ngx-status-box
       title="Total Readings"
       value="{{dashboardStats.total_readings}}"
+      [linesData]="linesData"
       icon="globe"
       pack="fas"></ngx-status-box>
+      <!--[linesData]="totalReadingsLinesData"-->
   </div>
   <!--<div class="col-md-3">-->
-    <!--<ngx-status-box-->
-      <!--title="Total Active Users"-->
-      <!--value="1.3K"-->
-      <!--icon="user"-->
-      <!--pack="fa"></ngx-status-box>-->
+  <!--<ngx-status-box-->
+  <!--title="Total Active Users"-->
+  <!--value="1.3K"-->
+  <!--icon="user"-->
+  <!--pack="fa"></ngx-status-box>-->
   <!--</div>-->
   <div class="col-md-3">
     <ngx-status-box
       title="Accuracy"
       value="{{dashboardStats.concordance}}%"
+      [linesData]="linesData"
       icon="check-square"
       pack="far"></ngx-status-box>
   </div>
@@ -32,6 +35,7 @@
     <ngx-status-box
       title="Positive Readings"
       value="{{dashboardStats.positive_readings}}"
+      [linesData]="linesData"
       icon="exclamation-triangle"
       pack="fas"></ngx-status-box>
   </div>

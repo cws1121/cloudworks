@@ -8,17 +8,17 @@
      <!--title="RDT Image Database (Last Synced: Oct 14, 2020)"-->
 </div>
 <div class="infinite-cards row images-timieline">
-  <div class="col-md-12 col-lg-12 col-xxxl-12">
+  <div class="col-md-12 col-lg-12 col-xxxl-12" *ngIf="pageLoaded | async">
     <nb-card>
       <nb-list
         nbInfiniteList
         listenWindowScroll
         [threshold]="500"
         (bottomThreshold)="loadNext()">
-        <nb-list-item *ngFor="let imagePost of secondCard.images">
+        <nb-list-item *ngFor="let imagePost of dataCard.images">
           <ngx-rdt-image [post]="imagePost" style="width: 100%"></ngx-rdt-image>
         </nb-list-item>
-        <nb-list-item *ngFor="let _ of secondCard.placeholders">
+        <nb-list-item *ngFor="let _ of dataCard.placeholders">
           <ngx-rdt-image-placeholder></ngx-rdt-image-placeholder>
         </nb-list-item>
       </nb-list>

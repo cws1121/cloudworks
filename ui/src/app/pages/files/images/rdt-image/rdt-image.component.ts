@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
 
-import { ImagePost } from '../../images.service';
+class ImagePost {
+  file: string;
+  uploaded_at: string;
+  external_id: string;
+}
 
 @Component({
   selector: 'ngx-rdt-image',
