@@ -11,6 +11,9 @@ import {CaseHeatmapComponent} from './case-heatmap/case-heatmap.component';
 import {ChartsModule} from '../charts/charts.module';
 import {NgxEchartsModule} from 'ngx-echarts';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
+import {FormatDatetimePipe} from './custom-pipes/format-datetime.pipe';
+import {FormatResultsJsonPipe} from './custom-pipes/format-results-json.pipe';
+import {ResultsExpiryPipe} from './custom-pipes/results-expiry.pipe';
 
 @NgModule({
   imports: [
@@ -25,12 +28,18 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
   declarations: [
     PageHeaderComponent,
     CaseDataTableComponent,
-    CaseHeatmapComponent
+    CaseHeatmapComponent,
+    FormatDatetimePipe,
+    FormatResultsJsonPipe,
+    ResultsExpiryPipe
   ],
   exports: [
     PageHeaderComponent,
     CaseDataTableComponent,
-    CaseHeatmapComponent
+    CaseHeatmapComponent,
+    FormatDatetimePipe,
+    FormatResultsJsonPipe,
+    ResultsExpiryPipe
   ]
 })
 export class SharedModule {

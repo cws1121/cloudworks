@@ -50,23 +50,6 @@ export class CaseDataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  formatResults(resultJson) {
-    resultJson = JSON.parse(resultJson.replace(/'/g, '"'));
-    let output = '';
-    for (var key in resultJson) {
-      output += resultJson[key] + '; ';
-    }
-    return output || 'N/A';
-  }
-
-  formatDateTimeString(dateTime) {
-    if (dateTime) {
-      dateTime = moment.utc(dateTime, 'YYYY-MM-DD hh:mm A');
-      return moment(dateTime).local().format('YYYY-MM-DD hh:mm A');
-    }
-    return dateTime || 'N/A'
-  }
-
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
   }

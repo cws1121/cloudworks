@@ -21,16 +21,16 @@
           <tbody>
           <tr *ngFor="let item of testResultList">
             <td>{{item.session.session_id}}</td>
-            <td>N/A</td>
+            <td class="text-center">N/A</td>
             <td>{{item.session.test_profile_id}}</td>
-            <td>N/A</td>
-            <td>{{formatResults(item.classifier_results)}}</td>
-            <td>{{formatResults(item.results)}}</td>
-            <td>N/A</td>
-            <td>N/A</td>
-            <td><a href="{{item.session.media_list[0] && item.session.media_list[0].file}}" target="_blank">{{formatDateTimeString(item.time_read) }}</a></td>
-            <td>{{formatDateTimeString(item.session.time_expired) }}</td>
-            <td>N/A</td>
+            <td class="text-center">N/A</td>
+            <td class="text-center">{{item.classifier_results | formatResultsJson}}</td>
+            <td class="text-center">{{item.results | formatResultsJson}}</td>
+            <td class="text-center">N/A</td>
+            <td class="text-center">N/A</td>
+            <td><a href="{{item.session.media_list[0] && item.session.media_list[0].file}}" target="_blank">{{item.time_read | formatDataTime}}</a></td>
+            <td>{{item.session.time_resolved | resultsExpiry: item.session.time_expired}}</td>
+            <td class="text-center">N/A</td>
           </tr>
           </tbody>
         </table>

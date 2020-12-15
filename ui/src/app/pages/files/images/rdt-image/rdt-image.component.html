@@ -43,6 +43,9 @@
   .timeline-date-box{
     padding: 0px 20px 10px 10px
   }
+  .timeline-date-box > p{
+    font-size: 22px;
+  }
 
 </style>
 
@@ -51,17 +54,19 @@
     <div id="pointer-icon">
       <nb-icon class="timeline-icon" icon="thermometer-half" pack="fa"></nb-icon>
     </div>
-    <div class="timeline-date-box">
-      <p>{{post.uploaded_at}}</p>
+    <div class="timeline-date-box text-center">
+      <p>{{post.uploaded_at | formatDataTime}}</p>
     </div>
   </div>
   <div class="col-md-9">
     <div id="pointer"></div>
     <div class="timeline-content-box">
       <div class="content">
+        <h3>{{post.test_profile_id}} | {{post.external_id}}</h3>
+        <hr>
         <img src="{{post.file}}" width="100%">
         <div class="text-content">
-          <p>{{post.external_id}}</p>
+          <p style="margin: 7px 0px 0px 0px;">Case ID: {{post.session_id}}</p>
         </div>
       </div>
     </div>

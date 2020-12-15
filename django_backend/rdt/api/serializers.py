@@ -3,11 +3,16 @@ from rdt.models import TestSession, TestResult, Media
 
 
 class MediaSerializer(serializers.ModelSerializer):
+    test_profile_id = serializers.CharField(source='session.test_profile_id')
+    session_id = serializers.CharField(source='session.session_id')
+
     class Meta:
       model = Media
       fields = ('external_id',
                 'file',
-                'uploaded_at')
+                'uploaded_at',
+                'test_profile_id',
+                'session_id')
 
 
 class TestSessionSerializer(serializers.ModelSerializer):

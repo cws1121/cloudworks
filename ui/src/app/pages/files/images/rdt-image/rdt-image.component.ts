@@ -4,6 +4,8 @@ class ImagePost {
   file: string;
   uploaded_at: string;
   external_id: string;
+  session_id: string;
+  test_profile_id:string;
 }
 
 @Component({
