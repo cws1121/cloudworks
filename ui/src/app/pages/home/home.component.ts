@@ -14,7 +14,8 @@ export class HomeComponent implements OnInit {
   dashboardStats = {
     total_readings: 'N/A',
     positive_readings: 'N/A',
-    concordance: 'N/A'
+    agreement: 'N/A',
+    positivity_rate: 'N/A'
   };
   linesData: { firstLine: number[]; secondLine: number[] };
 

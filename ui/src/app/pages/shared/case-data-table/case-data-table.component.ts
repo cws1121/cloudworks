@@ -38,7 +38,9 @@ export class CaseDataTableComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.dtTrigger.next();
+    setTimeout(() => {
+      this.dtTrigger.next();
+    },);
   }
 
   rerender(): void {

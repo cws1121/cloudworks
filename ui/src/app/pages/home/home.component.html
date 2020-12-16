@@ -25,16 +25,16 @@
   <!--</div>-->
   <div class="col-md-3">
     <ngx-status-box
-      title="Accuracy"
-      value="{{dashboardStats.concordance}}%"
+      title="Agreement"
+      value="{{dashboardStats.agreement}}"
       [linesData]="linesData"
       icon="check-square"
       pack="far"></ngx-status-box>
   </div>
   <div class="col-md-3">
     <ngx-status-box
-      title="Positive Readings"
-      value="{{dashboardStats.positive_readings}}"
+      title="Positivity Rate"
+      value="{{dashboardStats.positivity_rate}}"
       [linesData]="linesData"
       icon="exclamation-circle"
       pack="fas"></ngx-status-box>

@@ -193,14 +193,22 @@ class DashboardStatsView(GenericAPIView):
             "results_expired": [results_expired_data.get(d,0)/total_readings_data.get(d,1)*100 for d in days],
         }
 
+        total_readings = base_query.count()
+        agreement = 'N/A'
+        positivity_rate = 'N/A'
+        if total_readings != 0:
+            agreement = str(round(100 - sum(discordance_data.values())/total_readings * 100, 2)) + '%'
+            positivity_rate = str(round(100 - sum(positive_readings_data.values())/total_readings * 100, 2)) + '%'
+
         return Response({
             'status': 'success',
             'code': status.HTTP_200_OK,
             'data': {
                 'readings_chart_data': readings_chart_data,
                 'validity_chart_data': validity_chart_data,
-                'total_readings': base_query.count(),
-                'concordance': round(100 - sum(discordance_data.values())/base_query.count() * 100, 2),
-                'positive_readings': sum(positive_readings_data.values())
+                'total_readings': total_readings,
+                'agreement': agreement,
+                'positive_readings': sum(positive_readings_data.values()),
+                'positivity_rate': positivity_rate
             }
         })
