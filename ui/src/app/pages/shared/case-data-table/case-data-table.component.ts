@@ -3,7 +3,6 @@ import {SharedService} from '../../../shared.service';
 import {Subject} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {DataTableDirective} from 'angular-datatables';
-import * as moment from 'moment';
 
 @Component({
   selector: 'ngx-case-data-table',
