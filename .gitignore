@@ -33,6 +33,8 @@
 /docs
 /django_backend/local_settings.py
 /django_backend/cw_core/static
+/django_backend/logfile.log
+/django_backend/error-logfile.log
 
 # e2e
 /ui/e2e/*.js
