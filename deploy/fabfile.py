@@ -39,7 +39,7 @@ def deploy():
                 # sudo('python_env/bin/python manage.py collectstatic --no-input')
                 sudo('python_env/bin/python manage.py migrate --no-input')
                 # sudo('sudo ./bin/gunicorn_start')
-# sudo('sudo supervisorctl restart all')
+                sudo('sudo supervisorctl restart all')
 
 @task
 def deploy_and_build():
@@ -56,3 +56,4 @@ def deploy_and_build():
             with cd('/home/web/www/cloudworks/ui'):
                 sudo('npm install')
                 sudo('node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build  --prod')
+                sudo('sudo supervisorctl restart all')
