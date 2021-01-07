@@ -12,7 +12,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from account.serializers import UserSerializer
 from domain.serializers import DomainSerializer
 from rdt.models import TestSession, TestResult, Media
-from rdt.api.serializers import TestSessionSerializer, TestResultSerializer, MediaSerializer
+from rdt.api.serializers import TestSessionSerializer, TestResultSerializer, ExtendedMediaSerializer
 
 
 class Context(GenericAPIView):
@@ -105,7 +105,7 @@ class RdtImagesView(GenericAPIView):
             uploaded_at__gte=start,
             uploaded_at__lte=end,
         ).order_by('-uploaded_at')
-        media_serializer = MediaSerializer(media_records, many=True)
+        media_serializer = ExtendedMediaSerializer(media_records, many=True)
 
         return Response({
             'status': 'success',

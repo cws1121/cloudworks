@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rdt.models import TestSession, TestResult, Media
 
 
-class MediaSerializer(serializers.ModelSerializer):
+class ExtendedMediaSerializer(serializers.ModelSerializer):
     test_profile_id = serializers.CharField(source='session.test_profile_id')
     session_id = serializers.CharField(source='session.session_id')
 
@@ -13,6 +13,14 @@ class MediaSerializer(serializers.ModelSerializer):
                 'uploaded_at',
                 'test_profile_id',
                 'session_id')
+
+
+class MediaSerializer(serializers.ModelSerializer):
+    class Meta:
+      model = Media
+      fields = ('session',
+                'external_id',
+                'file')
 
 
 class TestSessionSerializer(serializers.ModelSerializer):
