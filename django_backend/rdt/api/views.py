@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.parsers import FileUploadParser
 
 from rdt.api.serializers import IngestTestSessionSerializer, MediaSerializer
+from rdt.models import TestSession
 from domain.authentication import CollectorAuthentication
 
 
@@ -31,6 +32,9 @@ class IngestTestSession(WriteOnlyAPIView):
         request.data['raw_payload'] = json.loads(request.body)
         request.data['id'] = kwargs.get('guid')
         request.data['domain_id'] = request.user.id
+
+        if TestSession.objects.filter(session_id=kwargs.get('guid')).exists():
+            return Response('Test session with the same id already exists.', status=status.HTTP_409_CONFLICT)
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
