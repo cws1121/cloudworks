@@ -8,6 +8,32 @@ from rdt.models import TestResult, TestSession, Media
 from cw_core.test_utils.bootstrap import bootstrap_test_domain, bootstrap_test_session
 from cw_core.test_utils.fake_media_factory import FakeMediaFactory
 
+TEST_SESSION_PAYLOAD = {
+    "result": {
+        "raw_image_file_path": "testpath",
+        "results_classifier": {},
+        "time_read": "2020-10-16T16:25:34.467Z",
+        "results": {
+            "diag_one": "positive",
+            "diag_two": "negative"
+        }
+    },
+    "test_profile_id": "test_id",
+    "time_started": "2020-10-16T16:25:33.977Z",
+    "time_expired": "2020-10-16T16:25:34.727Z",
+    "configuration": {
+        "flavor_text_two": "flavor_two",
+        "classifier_mode": "PRE_POPULATE",
+        "flags": {},
+        "provision_mode_data": "test_id",
+        "session_type": "ONE_PHASE",
+        "provision_mode": "TEST_PROFILE",
+        "flavor_text": "flavor_one"
+    },
+    "time_resolved": "2020-10-16T16:25:34.227Z",
+    "state": "COMPLETE"
+}
+
 
 class TestRdtAPI(TestCase):
 
@@ -29,38 +55,12 @@ class TestRdtAPI(TestCase):
     def test_ingest_test_session_method(self):
         session_guid = '1122334455'
 
-        payload = {
-            "result": {
-                "raw_image_file_path": "testpath",
-                "results_classifier": {},
-                "time_read": "2020-10-16T16:25:34.467Z",
-                "results": {
-                    "diag_one": "positive",
-                    "diag_two": "negative"
-                }
-            },
-            "test_profile_id": "test_id",
-            "time_started": "2020-10-16T16:25:33.977Z",
-            "time_expired": "2020-10-16T16:25:34.727Z",
-            "configuration": {
-                "flavor_text_two": "flavor_two",
-                "classifier_mode": "PRE_POPULATE",
-                "flags": {},
-                "provision_mode_data": "test_id",
-                "session_type": "ONE_PHASE",
-                "provision_mode": "TEST_PROFILE",
-                "flavor_text": "flavor_one"
-            },
-            "time_resolved": "2020-10-16T16:25:34.227Z",
-            "state": "COMPLETE"
-        }
-
         url_args = {
             'dsn': self.dsn_token,
             'guid': session_guid
         }
 
-        response = self.client.put(reverse('ingest_test_session', kwargs=url_args), data=json.dumps(payload),
+        response = self.client.put(reverse('ingest_test_session', kwargs=url_args), data=json.dumps(TEST_SESSION_PAYLOAD),
                                    content_type='application/json')
 
         self.assertEqual(response.status_code, 201)
@@ -70,8 +70,26 @@ class TestRdtAPI(TestCase):
         test_session = TestSession.objects.get(session_id=session_guid)
         test_result = TestResult.objects.get(session=test_session)
 
-        self.assertEqual(payload, test_session.raw_payload)
-        self.assertEqual(payload['result']['results'], test_result.results)
+        self.assertEqual(TEST_SESSION_PAYLOAD, test_session.raw_payload)
+        self.assertEqual(TEST_SESSION_PAYLOAD['result']['results'], test_result.results)
+
+    def test_duplicated_ingest_test_session_requests(self):
+        session_guid = '11111111'
+
+        url_args = {
+            'dsn': self.dsn_token,
+            'guid': session_guid
+        }
+
+        response = self.client.put(reverse('ingest_test_session', kwargs=url_args), data=json.dumps(TEST_SESSION_PAYLOAD),
+                                   content_type='application/json')
+
+        self.assertEqual(response.status_code, 201)
+
+        response = self.client.put(reverse('ingest_test_session', kwargs=url_args), data=json.dumps(TEST_SESSION_PAYLOAD),
+                                   content_type='application/json')
+
+        self.assertEqual(response.status_code, 409)
 
     @patch('storages.backends.s3boto3.S3Boto3Storage.save')
     def test_ingest_media_method(self, mock_save):
