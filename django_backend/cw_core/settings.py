@@ -32,7 +32,8 @@ INSTALLED_APPS = [
     'domain',
     'cw_core',
     'account',
-    'ng'
+    'ng',
+    'anymail'
 ]
 
 MIDDLEWARE = [
@@ -177,6 +178,8 @@ STATIC_URL = '/static/'
 # https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+DEFAULT_FROM_EMAIL = 'cloudworks-support@dimagi.com'
 
 try:
     from local_settings import *

@@ -32,4 +32,5 @@ typing-extensions==3.7.4.3
 urllib3==1.25.11
 whitenoise==5.0.1
 mock==4.0.3
+django-anymail==8.1
 
