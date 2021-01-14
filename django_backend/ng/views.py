@@ -69,7 +69,7 @@ class TestResultView(GenericAPIView):
     def post(self, request, *args, **kwargs):
         body = json.loads(request.body)
         start = datetime.strptime(body.get('start_date'), "%Y-%m-%d").date()
-        end = datetime.strptime(body.get('end_date'), "%Y-%m-%d").date()
+        end = datetime.strptime(body.get('end_date'), "%Y-%m-%d").date() + timedelta(days=1)
 
         tr_records = TestResult.objects.filter(
             session__domain=request.user.current_workspace,
@@ -98,7 +98,7 @@ class RdtImagesView(GenericAPIView):
     def post(self, request, *args, **kwargs):
         body = json.loads(request.body)
         start = datetime.strptime(body.get('start_date'), "%Y-%m-%d").date()
-        end = datetime.strptime(body.get('end_date'), "%Y-%m-%d").date()
+        end = datetime.strptime(body.get('end_date'), "%Y-%m-%d").date() + timedelta(days=1)
 
         media_records = Media.objects.filter(
             session__domain=request.user.current_workspace,
@@ -127,7 +127,7 @@ class DashboardStatsView(GenericAPIView):
     def post(self, request, *args, **kwargs):
         body = json.loads(request.body)
         start = datetime.strptime(body.get('start_date'), "%Y-%m-%d").date()
-        end = datetime.strptime(body.get('end_date'), "%Y-%m-%d").date()
+        end = datetime.strptime(body.get('end_date'), "%Y-%m-%d").date() + timedelta(days=1)
 
         day = start
         days = []
