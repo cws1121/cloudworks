@@ -1,15 +1,18 @@
 <div class="row">
-    <ngx-page-header
-      title="RDT Image Database"
-      description="Image assets from frontline devices in your project using CloudWorks for reading verification purposes."
-      icon="band-aid"
-      pack="fas">
-    </ngx-page-header>
-     <!--title="RDT Image Database (Last Synced: Oct 14, 2020)"-->
+  <ngx-page-header
+    title="RDT Image Database"
+    description="Image assets from frontline devices in your project using CloudWorks for reading verification purposes."
+    icon="band-aid"
+    pack="fas">
+  </ngx-page-header>
+  <!--title="RDT Image Database (Last Synced: Oct 14, 2020)"-->
 </div>
 <div class="infinite-cards row images-timieline">
   <div class="col-md-12 col-lg-12 col-xxxl-12" *ngIf="pageLoaded | async">
     <nb-card>
+      <div class="text-center padding-top-20" *ngIf="!dataCard.images.length">
+        No images available
+      </div>
       <nb-list
         nbInfiniteList
         listenWindowScroll

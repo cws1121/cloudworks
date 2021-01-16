@@ -23,6 +23,8 @@
               "src/assets",
               "src/favicon.ico",
               "src/favicon.png",
+              "src/cw_logo.png",
+              "src/cw_logo_long.png",
               {
                 "glob": "**/*",
                 "input": "node_modules/leaflet/dist/images",
