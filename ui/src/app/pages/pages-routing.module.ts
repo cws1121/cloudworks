@@ -4,6 +4,7 @@ import {NgModule} from '@angular/core';
 import {PagesComponent} from './pages.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {ECommerceComponent} from './e-commerce/e-commerce.component';
+import {StatsComponent} from './stats/stats.component';
 import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
 import {HomeComponent} from './home/home.component';
 
@@ -24,6 +25,10 @@ const routes: Routes = [{
       path: 'data',
       loadChildren: () => import('./data/data.module')
         .then(m => m.DataModule),
+    },
+    {
+      path: 'stats',
+      component: StatsComponent,
     },
     {
       path: 'home1',
