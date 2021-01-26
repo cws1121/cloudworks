@@ -8,15 +8,15 @@ import { CountryOrderData } from '../../../@core/data/country-order';
   styleUrls: ['./stats-country-orders.component.scss'],
   template: `
     <nb-card [size]="breakpoint.width >= breakpoints.md ? 'medium' : 'giant'">
-      <nb-card-header>Country Orders Statistics</nb-card-header>
+      <nb-card-header>Country/Region Readings Statistics</nb-card-header>
       <nb-card-body>
         <ngx-stats-country-orders-map (select)="selectCountryById($event)"
                                 countryId="USA">
         </ngx-stats-country-orders-map>
         <ngx-stats-country-orders-chart [countryName]="countryName"
-                                  [data]="countryData"
-                                  [labels]="countriesCategories"
-                                  maxValue="20">
+                                  [data]="readingsCountry"
+                                  [labels]="testTypesForSelectedContry"
+                                  maxValue="1500">
         </ngx-stats-country-orders-chart>
       </nb-card-body>
     </nb-card>
@@ -31,6 +31,8 @@ export class StatsCountryOrdersComponent implements OnInit, OnDestroy {
   countriesCategories: string[];
   breakpoint: NbMediaBreakpoint = { name: '', width: 0 };
   breakpoints: any;
+  readingsCountry = [1100, 500]
+  testTypesForSelectedContry = ["sd_bioline", "carestart"]
 
   constructor(private themeService: NbThemeService,
               private breakpointService: NbMediaBreakpointsService,
@@ -58,6 +60,7 @@ export class StatsCountryOrdersComponent implements OnInit, OnDestroy {
       .pipe(takeWhile(() => this.alive))
       .subscribe((countryData) => {
         this.countryData = countryData;
+         console.log(countryData)
       });
   }
 

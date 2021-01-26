@@ -12,12 +12,15 @@ export class StatsProgressSectionComponent implements OnDestroy {
   private alive = true;
 
   progressInfoData: ProgressInfo[];
+  readingsByWorkspaces = [{activeProgress: 96, description: "Mostly negative", title: "mc-upscale", value: 2550},
+  {activeProgress: 82, description: "Slightly increased positivity rate", title: "uat-2", value: 1220}]
 
   constructor(private statsProgressBarService: StatsProgressBarData) {
     this.statsProgressBarService.getProgressInfoData()
       .pipe(takeWhile(() => this.alive))
       .subscribe((data) => {
         this.progressInfoData = data;
+        console.log(data)
       });
   }
 

@@ -17,6 +17,7 @@ export class StatsUserActivityComponent implements OnDestroy {
   type = 'month';
   types = ['week', 'month', 'year'];
   currentTheme: string;
+  positivity_rate = []
 
   constructor(private themeService: NbThemeService,
               private userActivityService: UserActivityData) {
@@ -25,6 +26,9 @@ export class StatsUserActivityComponent implements OnDestroy {
       .subscribe(theme => {
         this.currentTheme = theme.name;
     });
+    this.positivity_rate = [{test_type: "sd_bioline", deltaUp: true, newVisits: 11, pagesVisitCount: 1100},
+    {test_type: "carestart", deltaUp: false, newVisits: 32, pagesVisitCount: 2150}]
+
 
     this.getUserActivity(this.type);
   }

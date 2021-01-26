@@ -18,6 +18,12 @@ TEST_SESSION_PAYLOAD = {
             "diag_two": "negative"
         }
     },
+    "metrics": {
+        "data": {
+            "instructions_viewed": "true",
+            "image_capture_attempts": "1"
+        }
+    },
     "test_profile_id": "test_id",
     "time_started": "2020-10-16T16:25:33.977Z",
     "time_expired": "2020-10-16T16:25:34.727Z",
@@ -60,7 +66,8 @@ class TestRdtAPI(TestCase):
             'guid': session_guid
         }
 
-        response = self.client.put(reverse('ingest_test_session', kwargs=url_args), data=json.dumps(TEST_SESSION_PAYLOAD),
+        response = self.client.put(reverse('ingest_test_session', kwargs=url_args),
+                                   data=json.dumps(TEST_SESSION_PAYLOAD),
                                    content_type='application/json')
 
         self.assertEqual(response.status_code, 201)
@@ -81,12 +88,14 @@ class TestRdtAPI(TestCase):
             'guid': session_guid
         }
 
-        response = self.client.put(reverse('ingest_test_session', kwargs=url_args), data=json.dumps(TEST_SESSION_PAYLOAD),
+        response = self.client.put(reverse('ingest_test_session', kwargs=url_args),
+                                   data=json.dumps(TEST_SESSION_PAYLOAD),
                                    content_type='application/json')
 
         self.assertEqual(response.status_code, 201)
 
-        response = self.client.put(reverse('ingest_test_session', kwargs=url_args), data=json.dumps(TEST_SESSION_PAYLOAD),
+        response = self.client.put(reverse('ingest_test_session', kwargs=url_args),
+                                   data=json.dumps(TEST_SESSION_PAYLOAD),
                                    content_type='application/json')
 
         self.assertEqual(response.status_code, 409)

@@ -25,6 +25,7 @@ class TestSession(models.Model):
     time_resolved = models.DateTimeField(null=True)
     time_expired = models.DateTimeField(null=True)
     raw_payload = JSONField(default=dict, null=True)
+    metrics = JSONField(default=dict, null=True, blank=True)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, related_name='sessions')
 
 

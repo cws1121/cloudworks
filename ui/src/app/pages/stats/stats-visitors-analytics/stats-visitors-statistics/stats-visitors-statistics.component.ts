@@ -47,11 +47,11 @@ export class StatsVisitorsStatisticsComponent implements AfterViewInit, OnDestro
     this.chartLegend = [
       {
         iconColor: visitorsPieLegend.firstSection,
-        title: 'New Visitors',
+        title: 'Positive Results',
       },
       {
         iconColor: visitorsPieLegend.secondSection,
-        title: 'Return Visitors',
+        title: 'Negative Results',
       },
     ];
   }

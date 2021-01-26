@@ -62,6 +62,7 @@ class IngestTestSessionSerializer(serializers.Serializer):
     test_profile_id = serializers.CharField(required=False)
     raw_image_file_path = serializers.CharField(required=False)
     raw_payload = serializers.JSONField(required=False)
+    metrics = serializers.JSONField(required=False)
 
     def create(self, validated_data):
         """
@@ -75,7 +76,8 @@ class IngestTestSessionSerializer(serializers.Serializer):
             time_resolved=validated_data.get('time_resolved'),
             time_started=validated_data.get('time_started'),
             time_expired=validated_data.get('time_expired'),
-            raw_payload=validated_data.get('raw_payload')
+            raw_payload=validated_data.get('raw_payload'),
+            metrics = validated_data.get('metrics')
         )
 
         result = validated_data.get('result')
