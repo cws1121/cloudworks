@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import FileUploadParser
 
-from rdt.api.serializers import IngestTestSessionSerializer, MediaSerializer
+from rdt.api.serializers import IngestTestSessionSerializer, MediaSerializer, IngestTestSessionLogSerializer
 from rdt.models import TestSession
 from domain.authentication import CollectorAuthentication
 
@@ -56,3 +56,22 @@ class IngestMedia(WriteOnlyAPIView):
         request.data['session'] = kwargs.get('guid')
         request.data['external_id'] = kwargs.get('media_id')
         return self.create(request, *args, **kwargs)
+
+
+class IngestLogs(WriteOnlyAPIView):
+    """
+    Ingest Logs API endpoint
+
+    * Requires DSN authentication token.
+    """
+    authentication_classes = [CollectorAuthentication]
+    serializer_class = IngestTestSessionLogSerializer
+
+    def put(self, request, *args, **kwargs):
+        payload = json.loads(request.body)
+        for log_entry in payload['entries']:
+            log_entry['session_id'] = kwargs.get('guid')
+            serializer = self.get_serializer(data=log_entry)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+        return Response('Success!', status=status.HTTP_201_CREATED)

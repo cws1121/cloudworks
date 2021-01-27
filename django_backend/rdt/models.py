@@ -29,6 +29,18 @@ class TestSession(models.Model):
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, related_name='sessions')
 
 
+class TestSessionLog(models.Model):
+    """
+    Keeps track of ongoing event logs about important occurrences during a test evaluation session.
+    """
+    session = models.ForeignKey(TestSession, on_delete=models.CASCADE, related_name='logs')
+    timestamp = models.DateTimeField(null=True)
+    tag = models.CharField(max_length=255, blank=True, null=True)
+    message = models.CharField(max_length=255, blank=True, null=True)
+    media_key = models.CharField(max_length=255, blank=True, null=True)
+    json = JSONField(default=dict, null=True, blank=True)
+
+
 class TestResult(models.Model):
     """
     The outcome and details of an individual diagnostic test

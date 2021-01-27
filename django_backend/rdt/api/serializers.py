@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rdt.models import TestSession, TestResult, Media
+from rdt.models import TestSession, TestResult, Media, TestSessionLog
 
 
 class ExtendedMediaSerializer(serializers.ModelSerializer):
@@ -90,4 +90,20 @@ class IngestTestSessionSerializer(serializers.Serializer):
                 results=result.get('results')
             )
 
+        return ts_instance
+
+
+class IngestTestSessionLogSerializer(serializers.Serializer):
+    timestamp = serializers.DateTimeField(required=False)
+    tag = serializers.CharField(required=False)
+    message = serializers.CharField(required=False)
+    media_key = serializers.CharField(required=False)
+    json = serializers.JSONField(required=False)
+    session_id = serializers.CharField(required=False)
+
+    def create(self, validated_data):
+        """
+        Create and return a new `TestSessionLog` instance, given the validated data.
+        """
+        ts_instance = TestSessionLog.objects.create(**validated_data)
         return ts_instance
