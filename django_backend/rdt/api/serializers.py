@@ -39,6 +39,14 @@ class TestResultSerializer(serializers.ModelSerializer):
       fields = '__all__'
 
 
+class TestSessioonLogSerializer(serializers.ModelSerializer):
+    session = TestSessionSerializer()
+
+    class Meta:
+      model = TestSessionLog
+      fields = '__all__'
+
+
 class ChoiceFieldNoValidation(serializers.ChoiceField):
     def to_internal_value(self, data):
         if data == '' and self.allow_blank:
