@@ -39,7 +39,7 @@ class TestResultSerializer(serializers.ModelSerializer):
       fields = '__all__'
 
 
-class TestSessioonLogSerializer(serializers.ModelSerializer):
+class TestSessionLogSerializer(serializers.ModelSerializer):
     session = TestSessionSerializer()
 
     class Meta:

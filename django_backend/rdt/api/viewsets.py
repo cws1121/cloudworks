@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from rest_framework import permissions
 
 from rdt.models import TestSession, TestResult, Media, TestSessionLog
-from rdt.api.serializers import TestSessionSerializer, TestResultSerializer, MediaSerializer
+from rdt.api.serializers import TestSessionSerializer, TestResultSerializer, TestSessionLogSerializer, MediaSerializer
 
 
 class TestSessionViewSet(viewsets.ModelViewSet):
@@ -28,7 +28,7 @@ class TestSessionLogsViewSet(viewsets.ModelViewSet):
     API endpoint that allows TestSessionLogs to be viewed or edited.
     """
     queryset = TestSessionLog.objects.all()
-    serializer_class = TestResultSerializer
+    serializer_class = TestSessionLogSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
