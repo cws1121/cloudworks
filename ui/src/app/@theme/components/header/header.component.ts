@@ -19,8 +19,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userPictureOnly: boolean = false;
   user: any;
   context: any;
-  domain: any;
+  currentDomain: any;
   dateRange: any;
+  availableDomains: any = [];
+  domainSearch: any = '';
 
   themes = [
     {
@@ -63,7 +65,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(context => {
         this.context = context.data;
         this.user = context.data.user;
-        this.domain = context.data.domain;
+        this.currentDomain = context.data.current_domain;
+        this.availableDomains = context.data.available_domains;
       });
 
     const {xl} = this.breakpointService.getBreakpointsMap();
@@ -94,10 +97,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       });
 
-      this.dateRange = {
-        start: this.sharedService.dateRange.startDate.toDate(),
-        end: this.sharedService.dateRange.endDate.toDate(),
+    this.dateRange = {
+      start: this.sharedService.dateRange.startDate.toDate(),
+      end: this.sharedService.dateRange.endDate.toDate(),
+    };
+  }
+
+  getFilteredDomains() {
+    function containsString(wordToCompare) {
+      return function (domain) {
+        return domain.name.indexOf(wordToCompare) >= 0;
       };
+    }
+
+    return this.availableDomains.filter(containsString(this.domainSearch));
+  }
+
+  switchDomain(domain_id: string) {
+    if (domain_id != this.currentDomain.id) {
+      this.sharedService.switchDomain(domain_id).subscribe(
+        (data: any) => {
+          window.location.reload();
+        },
+        (err: any) => console.error('switchDomain: ERROR')
+      );
+    }
   }
 
   ngOnDestroy() {
@@ -116,11 +140,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  updateDateRange(event: any){
-    if (event.start && event.end){
+  updateDateRange(event: any) {
+    if (event.start && event.end) {
       this.sharedService.dateRange.startDate = moment(event.start);
       this.sharedService.dateRange.endDate = moment(event.end);
-      this.sharedService.reloadDateRange()
+      this.sharedService.reloadDateRange();
     }
   }
 

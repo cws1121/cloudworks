@@ -5,13 +5,14 @@ from datetime import datetime, timedelta
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAdminUser
 from django.db.models.functions import TruncDate
 from django.db.models import Count, Case, When, IntegerField, Q, F, Value
 
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from account.serializers import UserSerializer
 from domain.serializers import DomainSerializer
-from rdt.models import TestSession, TestResult, Media
+from rdt.models import TestSession, TestResult, Media, Domain
 from rdt.api.serializers import TestSessionSerializer, TestResultSerializer, ExtendedMediaSerializer
 
 
@@ -26,13 +27,19 @@ class Context(GenericAPIView):
     def post(self, request, *args, **kwargs):
         user_serializer = UserSerializer(request.user)
         domain_serializer = DomainSerializer(request.user.current_workspace)
+        current_domain = available_domains = domain_serializer.data
+
+        if request.user.is_superuser:
+            available_domains = Domain.objects.all()
+            available_domains = DomainSerializer(available_domains, many=True).data
 
         return Response({
             'status': 'success',
             'code': status.HTTP_200_OK,
             'data': {
                 'user': user_serializer.data,
-                'domain': domain_serializer.data,
+                'current_domain': current_domain,
+                'available_domains': available_domains,
             }
         })
 
@@ -211,4 +218,27 @@ class DashboardStatsView(GenericAPIView):
                 'positive_readings': sum(positive_readings_data.values()),
                 'positivity_rate': positivity_rate
             }
+        })
+
+
+class SwitchDomain(GenericAPIView):
+    """
+    Switch admin user domain
+
+    * Requires JWT authentication token and superadmin role.
+    """
+    authentication_classes = [JSONWebTokenAuthentication]
+    permission_classes = (IsAdminUser,)
+
+    def post(self, request, *args, **kwargs):
+        body = json.loads(request.body)
+        domain_id = body.get('domain_id')
+        domain = Domain.objects.filter(id=domain_id).get()
+        user = request.user
+        user.current_workspace = domain
+        user.save()
+
+        return Response({
+            'status': 'success',
+            'code': status.HTTP_200_OK
         })

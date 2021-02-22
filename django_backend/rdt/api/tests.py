@@ -3,7 +3,7 @@ from mock import patch
 
 from django.test import TestCase
 from django.urls import reverse
-from rdt.models import TestResult, TestSession, Media
+from rdt.models import TestResult, TestSession, Media, TestSessionLog
 
 from cw_core.test_utils.bootstrap import bootstrap_test_domain, bootstrap_test_session
 from cw_core.test_utils.fake_media_factory import FakeMediaFactory
@@ -121,3 +121,45 @@ class TestRdtAPI(TestCase):
 
         self.assertEqual(response.status_code, 201)
         self.assertTrue(Media.objects.filter(session=test_session).exists())
+
+    def test_ingest_test_session_logs_method(self):
+        test_session = bootstrap_test_session()
+
+        logs_payload = {
+            "entries": [
+                {
+                    "timestamp" : "2021-01-25T16:12:21.563+00:00",
+                    "tag": "user_action",
+                    "message" : "Skipped instructions"
+                }
+                ,{
+                    "timestamp" : "2021-01-25T16:12:24.563+00:00",
+                    "tag": "user_action",
+                    "message" : "User inititated timer override"
+                }
+                ,{
+                    "timestamp" : "2021-01-25T16:12:28.563+00:00",
+                    "tag": "classifier_dummy",
+                    "message" : "Classifier returned error, json context attached",
+                    "json" : {
+                       "error_code": "4",
+                       "arbitrary_json": "can be in this block"
+                    },
+                    "media_key" : "error_image_1"
+                }
+
+            ]
+        }
+
+        url_args = {
+            'dsn': self.dsn_token,
+            'guid': test_session.session_id
+        }
+
+        response = self.client.put(reverse('ingest_logs', kwargs=url_args),
+                                   data=json.dumps(logs_payload),
+                                   content_type='application/json')
+
+        self.assertEqual(response.status_code, 201)
+        self.assertTrue(TestSessionLog.objects.filter(session=test_session).exists())
+        self.assertEqual(TestSessionLog.objects.filter(session=test_session).count(), 3)

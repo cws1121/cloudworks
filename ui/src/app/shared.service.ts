@@ -83,6 +83,13 @@ export class SharedService {
       );
   }
 
+  switchDomain(domainId) {
+    return this.http
+      .post(this.NgAPIUrl + '/switch_domain/', {
+        domain_id: domainId
+      })
+  }
+
   reloadDateRange() {
     this.updateTestResultList();
     this.updateRdtImagesList();
