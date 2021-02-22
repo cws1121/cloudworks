@@ -29,7 +29,7 @@ class Context(GenericAPIView):
         domain_serializer = DomainSerializer(request.user.current_workspace)
         current_domain = available_domains = domain_serializer.data
 
-        if request.user.is_superuser:
+        if request.user.is_staff:
             available_domains = Domain.objects.all()
             available_domains = DomainSerializer(available_domains, many=True).data
 
