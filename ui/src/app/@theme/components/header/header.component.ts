@@ -115,12 +115,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   switchDomain(domain_id: string) {
     if (domain_id != this.currentDomain.id) {
-      this.sharedService.switchDomain(domain_id).subscribe(
-        (data: any) => {
-          window.location.reload();
-        },
-        (err: any) => console.error('switchDomain: ERROR')
-      );
+      if (domain_id == 'global_stats') {
+        this.router.navigate(['a/pages/stats']);
+      } else {
+        this.sharedService.switchDomain(domain_id).subscribe(
+          (data: any) => {
+            window.location.reload();
+          },
+          (err: any) => console.error('switchDomain: ERROR')
+        );
+      }
     }
   }
 
@@ -145,6 +149,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.sharedService.dateRange.startDate = moment(event.start);
       this.sharedService.dateRange.endDate = moment(event.end);
       this.sharedService.reloadDateRange();
+    }
+  }
+
+  getSelectedDomainID() {
+    if (this.router.url === '/a/pages/stats') {
+      return 'global_stats';
+    } else {
+      return this.currentDomain.id;
     }
   }
 

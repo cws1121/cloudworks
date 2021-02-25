@@ -1,15 +1,6 @@
 import {NbMenuItem} from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
-  // {
-  //   title: 'Stats',
-  //   icon: 'globe-outline',
-  //   link: '/a/pages/stats'
-  // },
-  // {
-  //   title: '--------------',
-  //   group: true,
-  // },
   {
     title: 'Dashboard',
     icon: 'home-outline',

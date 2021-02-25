@@ -8,8 +8,10 @@
       <a *ngSwitchCase="0" href="#" (click)="navigateHome()">CloudWorks</a>
       <a *ngSwitchCase="1" href="#" (click)="navigateHome()">{{currentDomain.name}}</a>
       <span *ngSwitchDefault>
-        <nb-select [selected]="currentDomain.id" (selectedChange)="switchDomain($event)" status="primary" class="w-200">
+        <nb-select [selected]="getSelectedDomainID()" (selectedChange)="switchDomain($event)" status="primary" class="w-200">
           <nb-option *ngFor="let domain of availableDomains" [value]="domain.id"> {{ domain.name }}</nb-option>
+          <nb-option disabled>──────────</nb-option>
+          <nb-option [value]="'global_stats'"><nb-icon [icon]="'globe-outline'" pack="eva"></nb-icon>&nbsp;&nbsp;Global Stats</nb-option>
         </nb-select>
       </span>
     </div>
