@@ -196,8 +196,8 @@ class DashboardStatsView(GenericAPIView):
 
         validity_chart_data = {
             "days": [d.isoformat() for d in days],
-            "results_valid": [results_valid_data.get(d,0)/total_readings_data.get(d,1)*100 for d in days],
-            "results_expired": [results_expired_data.get(d,0)/total_readings_data.get(d,1)*100 for d in days],
+            "results_valid": [results_valid_data.get(d,0) for d in days],
+            "results_expired": [results_expired_data.get(d,0) for d in days],
         }
 
         total_readings = base_query.count()

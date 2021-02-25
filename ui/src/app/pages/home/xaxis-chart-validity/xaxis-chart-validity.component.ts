@@ -82,8 +82,8 @@ export class XaxisChartValidityComponent implements OnDestroy {
               {
                 display: true,
                 scaleLabel: {
-                  display: true,
-                  labelString: 'Expiry %',
+                  display: false,
+                  labelString: '',
                 },
                 gridLines: {
                   display: true,
