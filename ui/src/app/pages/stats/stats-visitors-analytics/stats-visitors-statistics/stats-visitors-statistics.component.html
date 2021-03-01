@@ -1,5 +1,5 @@
 <div class="visitors-statistics">
-  <h4 class="h1">1,100</h4>
+  <h4 class="h1">{{globalStats.positive_readings}}</h4>
   <div class="visitors-title">Total Positive Readings</div>
   <div class="statistics-chart">
     <div echarts
@@ -10,8 +10,8 @@
   </div>
   <div class="statistics-footer">
     <div class="chart-values h5">
-      <span class="chart-value">25%</span>
-      <span class="chart-value">75%</span>
+      <span class="chart-value">{{globalStats.positivity_rate}}%</span>
+      <span class="chart-value">{{100-globalStats.positivity_rate}}%</span>
     </div>
     <ngx-stats-legend-chart class="visitors-statistics-legend" [legendItems]="chartLegend"></ngx-stats-legend-chart>
   </div>

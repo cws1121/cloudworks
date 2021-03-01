@@ -25,7 +25,8 @@ export class CaseDataTableComponent implements OnInit, OnDestroy {
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
-      processing: true
+      processing: true,
+      order:[[8, 'desc']]
     };
 
     this.sharedService.testResultList

@@ -1,8 +1,10 @@
-import { delay, takeWhile } from 'rxjs/operators';
-import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
-import { LayoutService } from '../../../../@core/utils';
-import { OutlineData } from '../../../../@core/data/visitors-analytics';
+import {delay, filter, takeWhile} from 'rxjs/operators';
+import {AfterViewInit, Component, Input, OnDestroy} from '@angular/core';
+import {NbThemeService} from '@nebular/theme';
+import {LayoutService} from '../../../../@core/utils';
+import {OutlineData} from '../../../../@core/data/visitors-analytics';
+import {SharedService} from '../../../../shared.service';
+import {combineLatest} from 'rxjs';
 
 @Component({
   selector: 'ngx-stats-visitors-analytics-chart',
@@ -20,17 +22,14 @@ export class StatsVisitorsAnalyticsChartComponent implements AfterViewInit, OnDe
 
   private alive = true;
 
-  @Input() chartData: {
-    innerLine: number[];
-    outerLine: OutlineData[];
-  };
-
   option: any;
   themeSubscription: any;
   echartsIntance: any;
+  chartData:any =[];
 
   constructor(private theme: NbThemeService,
-              private layoutService: LayoutService) {
+              private layoutService: LayoutService,
+              private sharedService: SharedService) {
     this.layoutService.onSafeChangeLayoutSize()
       .pipe(
         takeWhile(() => this.alive),
@@ -39,16 +38,18 @@ export class StatsVisitorsAnalyticsChartComponent implements AfterViewInit, OnDe
   }
 
   ngAfterViewInit(): void {
-    this.theme.getJsTheme()
-      .pipe(
-        delay(1),
-        takeWhile(() => this.alive),
-      )
-      .subscribe(config => {
-        const eTheme: any = config.variables.visitors;
 
-        this.setOptions(eTheme);
-    });
+    let globalStatsPromise = this.sharedService.globalStats;
+    let jsThemePromise = this.theme.getJsTheme();
+
+    combineLatest([globalStatsPromise, jsThemePromise])
+      .pipe(filter(results => !!results[0].data))
+      .pipe(takeWhile(() => this.alive))
+      .subscribe(results => {
+        this.chartData = results[0].data.readings_chart_data;
+        const eTheme: any = results[1].variables.visitors;
+        this.refreshChart(eTheme)
+      });
   }
 
   setOptions(eTheme) {
@@ -86,7 +87,7 @@ export class StatsVisitorsAnalyticsChartComponent implements AfterViewInit, OnDe
         type: 'category',
         boundaryGap: false,
         offset: 25,
-        data: this.chartData.outerLine.map(i => i.label),
+        data: this.chartData['days'],
         axisTick: {
           show: false,
         },
@@ -125,14 +126,22 @@ export class StatsVisitorsAnalyticsChartComponent implements AfterViewInit, OnDe
           },
         },
       },
-      series: [
-        this.getInnerLine(eTheme),
-        this.getOuterLine(eTheme),
-      ],
+      series: this.generateSeries(eTheme),
     };
   }
 
-  getOuterLine(eTheme) {
+  generateSeries(eTheme) {
+    let output = [];
+
+    for (let k in this.chartData) {
+      if (k != 'days') {
+        output.push(this.getOuterLine(eTheme, this.chartData[k], k));
+      }
+    }
+    return output;
+  }
+
+  getOuterLine(eTheme, data, label) {
     return {
       type: 'line',
       smooth: true,
@@ -143,43 +152,26 @@ export class StatsVisitorsAnalyticsChartComponent implements AfterViewInit, OnDe
         },
         emphasis: {
           color: '#ffffff',
-            borderColor: eTheme.itemBorderColor,
-            borderWidth: 2,
-            opacity: 1,
+          borderColor: eTheme.itemBorderColor,
+          borderWidth: 1,
+          opacity: 1,
         },
       },
       lineStyle: {
         normal: {
           width: eTheme.lineWidth,
           type: eTheme.lineStyle,
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-            offset: 0,
-            color: eTheme.lineGradFrom,
-          }, {
-            offset: 1,
-            color: eTheme.lineGradTo,
-          }]),
+          color: this.intToHEX(this.hashCode(label)),
           shadowColor: eTheme.lineShadow,
           shadowBlur: 6,
           shadowOffsetY: 12,
         },
       },
-      areaStyle: {
-        normal: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-            offset: 0,
-            color: eTheme.areaGradFrom,
-          }, {
-            offset: 1,
-            color: eTheme.areaGradTo,
-          }]),
-        },
-      },
-      data: this.chartData.outerLine.map(i => i.value),
+      data: data,
     };
   }
 
-  getInnerLine(eTheme) {
+  getInnerLine(eTheme, data, label) {
     return {
       type: 'line',
       smooth: true,
@@ -207,15 +199,15 @@ export class StatsVisitorsAnalyticsChartComponent implements AfterViewInit, OnDe
         normal: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
             offset: 0,
-            color: eTheme.innerAreaGradFrom,
+            color: this.intToHEX(this.hashCode(label)),
           }, {
             offset: 1,
-            color: eTheme.innerAreaGradTo,
+            color: this.intToHEX(this.hashCode(label)),
           }]),
-          opacity: 1,
+          opacity: 0.8,
         },
       },
-      data: this.chartData.innerLine,
+      data: data,
     };
   }
 
@@ -223,10 +215,30 @@ export class StatsVisitorsAnalyticsChartComponent implements AfterViewInit, OnDe
     this.echartsIntance = echarts;
   }
 
+  refreshChart(eTheme){
+    this.setOptions(eTheme)
+  }
+
   resizeChart() {
     if (this.echartsIntance) {
       this.echartsIntance.resize();
     }
+  }
+
+  hashCode(str) {
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return hash;
+  }
+
+  intToHEX(i) {
+    var c = (i & 0x00FFFFFF)
+      .toString(16)
+      .toUpperCase();
+
+    return '#' + '00000'.substring(0, 6 - c.length) + c;
   }
 
   ngOnDestroy() {

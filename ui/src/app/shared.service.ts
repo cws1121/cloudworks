@@ -25,6 +25,9 @@ export class SharedService {
   private dashboardStatsStream = new BehaviorSubject<any>([]);
   dashboardStats = this.dashboardStatsStream.asObservable();
 
+  private globalStatsStream = new BehaviorSubject<any>([]);
+  globalStats = this.globalStatsStream.asObservable();
+
   constructor(private http: HttpClient) {
     this.updateContext();
     this.reloadDateRange();
@@ -83,16 +86,31 @@ export class SharedService {
       );
   }
 
+  updateGlobalStats() {
+    this.http
+      .post(this.NgAPIUrl + '/global_stats/', {
+        start_date: this.dateRange.startDate.format('YYYY-MM-DD'),
+        end_date: this.dateRange.endDate.format('YYYY-MM-DD'),
+      })
+      .subscribe(
+        (data: any) => {
+          this.globalStatsStream.next(data);
+        },
+        (err: any) => console.error('rdtImagesList: ERROR')
+      );
+  }
+
   switchDomain(domainId) {
     return this.http
       .post(this.NgAPIUrl + '/switch_domain/', {
         domain_id: domainId
-      })
+      });
   }
 
   reloadDateRange() {
     this.updateTestResultList();
     this.updateRdtImagesList();
     this.updateDashboardStats();
+    this.updateGlobalStats();
   }
 }

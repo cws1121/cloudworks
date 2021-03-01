@@ -60,7 +60,6 @@ export class StatsCountryOrdersComponent implements OnInit, OnDestroy {
       .pipe(takeWhile(() => this.alive))
       .subscribe((countryData) => {
         this.countryData = countryData;
-         console.log(countryData)
       });
   }
 

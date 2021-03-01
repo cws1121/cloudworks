@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser
 from django.db.models.functions import TruncDate
-from django.db.models import Count, Case, When, IntegerField, Q, F, Value
+from django.db.models import Count, Case, When, IntegerField, Q, F, Value, Sum
 
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from account.serializers import UserSerializer
@@ -160,12 +160,17 @@ class DashboardStatsView(GenericAPIView):
                 output_field=IntegerField(),
             )),
             results_valid=Count(Case(
-                When(Q(session__time_resolved__lte=F('session__time_expired')),
+                When(Q(time_read__lte=F('session__time_expired')) & Q(time_read__gte=F('session__time_resolved')),
                      then=1),
                 output_field=IntegerField(),
             )),
-            results_expired=Count(Case(
-                When(Q(session__time_resolved__gt=F('session__time_expired')),
+            captured_too_late=Count(Case(
+                When(Q(time_read__gt=F('session__time_expired')),
+                     then=1),
+                output_field=IntegerField(),
+            )),
+            captured_too_early=Count(Case(
+                When(Q(time_read__lt=F('session__time_resolved')),
                      then=1),
                 output_field=IntegerField(),
             )),
@@ -179,13 +184,15 @@ class DashboardStatsView(GenericAPIView):
         total_readings_data={}
         discordance_data = {}
         results_valid_data={}
-        results_expired_data={}
+        captured_too_late_data={}
+        captured_too_early_data = {}
         positive_readings_data = {}
         for row in aggregated_data:
             total_readings_data[row['day']] = row['total_readings']
             discordance_data[row['day']] = row['discordance']
             results_valid_data[row['day']] = row['results_valid']
-            results_expired_data[row['day']] = row['results_expired']
+            captured_too_late_data[row['day']] = row['captured_too_late']
+            captured_too_early_data[row['day']] = row['captured_too_early']
             positive_readings_data[row['day']] = row['positive_readings']
 
         readings_chart_data = {
@@ -197,7 +204,8 @@ class DashboardStatsView(GenericAPIView):
         validity_chart_data = {
             "days": [d.isoformat() for d in days],
             "results_valid": [results_valid_data.get(d,0) for d in days],
-            "results_expired": [results_expired_data.get(d,0) for d in days],
+            "captured_too_early": [captured_too_early_data.get(d,0) for d in days],
+            "captured_too_late": [captured_too_late_data.get(d, 0) for d in days],
         }
 
         total_readings = base_query.count()
@@ -217,6 +225,107 @@ class DashboardStatsView(GenericAPIView):
                 'agreement': agreement,
                 'positive_readings': sum(positive_readings_data.values()),
                 'positivity_rate': positivity_rate
+            }
+        })
+
+
+class GlobalStatsView(GenericAPIView):
+    """
+    Get global stats
+
+    * Requires JWT authentication token.
+    """
+    authentication_classes = [JSONWebTokenAuthentication]
+    permission_classes = (IsAdminUser,)
+
+    def post(self, request, *args, **kwargs):
+        body = json.loads(request.body)
+        start = datetime.strptime(body.get('start_date'), "%Y-%m-%d").date()
+        end = datetime.strptime(body.get('end_date'), "%Y-%m-%d").date() + timedelta(days=1)
+
+        day = start
+        days = []
+        while day <= end:
+            days.append(day)
+            day += timedelta(days=1)
+
+        base_query = TestResult.objects.filter(
+            time_read__gte=start,
+            time_read__lte=end
+        )
+
+        aggregated_data = base_query.annotate(
+            day=TruncDate('time_read')
+        ).values('session__test_profile_id','day').annotate(
+            total_readings=Count(Case(
+                When(~Q(results__exact={}) | ~Q(classifier_results__exact={}), then=1),
+                output_field=IntegerField(),
+            )),
+            positive_readings=Count(Case(
+                When(Q(results__icontains='pos') | Q(classifier_results__icontains='pos'),
+                     then=1),
+                output_field=IntegerField(),
+            ))
+        )
+
+        test_profiles = set()
+        readings_per_profile_data={}
+        positive_readings_per_profile_data = {}
+        for row in aggregated_data:
+            test_profiles.add(row['session__test_profile_id'])
+
+        for profile in test_profiles:
+            total_readings_data = {}
+            positive_readings_data = {}
+            for row in aggregated_data:
+                if row['session__test_profile_id'] == profile:
+                    total_readings_data[row['day']] = row['total_readings']
+                    positive_readings_data[row['day']] = row['positive_readings']
+            readings_per_profile_data[profile] = total_readings_data
+            positive_readings_per_profile_data[profile] = positive_readings_data
+
+        readings_chart_data = {
+            "days": [d.isoformat() for d in days]
+        }
+
+        for t_profile in readings_per_profile_data:
+            readings_chart_data[t_profile] = [readings_per_profile_data[t_profile].get(d,0) for d in days]
+
+        total_readings = base_query.count()
+        positive_readings = sum(sum(item.values()) for item in positive_readings_per_profile_data.values())
+
+        total_readings_per_profile_sum = {}
+        for item in readings_per_profile_data:
+            total_readings_per_profile_sum[item] = sum(readings_per_profile_data[item].values())
+
+        positive_readings_per_profile_sum = {}
+        for item in positive_readings_per_profile_data:
+            positive_readings_per_profile_sum[item] = sum(positive_readings_per_profile_data[item].values())
+
+        aggregated_by_domain = base_query.annotate(domain_name=F('session__domain__name')).values('domain_name').annotate(
+            total_readings=Count(Case(
+                When(~Q(results__exact={}) | ~Q(classifier_results__exact={}), then=1),
+                output_field=IntegerField(),
+            )),
+            positive_readings=Count(Case(
+                When(Q(results__icontains='pos') | Q(classifier_results__icontains='pos'),
+                     then=1),
+                output_field=IntegerField(),
+            ))
+        )
+
+        return Response({
+            'status': 'success',
+            'code': status.HTTP_200_OK,
+            'data': {
+                'test_profiles': test_profiles,
+                'readings_chart_data': readings_chart_data,
+                'total_readings': total_readings,
+                'positive_readings': positive_readings,
+                'positivity_rate': round(positive_readings / total_readings * 100, 2) if total_readings>0 else 0,
+                'total_readings_per_profile_sum': total_readings_per_profile_sum,
+                'positive_readings_per_profile_sum': positive_readings_per_profile_sum,
+                'positivity_rate_by_domain': aggregated_by_domain,
             }
         })
 

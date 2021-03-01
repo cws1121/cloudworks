@@ -44,7 +44,6 @@ export class ImagesComponent implements OnInit {
     this.dataCard.placeholders = new Array(this.pageSize);
 
     let startIndex = (this.dataCard.pageToLoadNext - 1) * this.pageSize;
-    console.log(startIndex);
     return this.sharedService.rdtImagesList
       .pipe(
         filter(images => !!images.data),

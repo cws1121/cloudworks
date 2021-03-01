@@ -1,8 +1,9 @@
-import { Component, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
-import { takeWhile } from 'rxjs/operators';
+import {Component, OnDestroy} from '@angular/core';
+import {NbThemeService} from '@nebular/theme';
+import {filter, takeWhile} from 'rxjs/operators';
 
-import { UserActivityData, UserActive } from '../../../@core/data/user-activity';
+import {UserActivityData, UserActive} from '../../../@core/data/user-activity';
+import {SharedService} from '../../../shared.service';
 
 @Component({
   selector: 'ngx-stats-user-activity',
@@ -13,22 +14,29 @@ export class StatsUserActivityComponent implements OnDestroy {
 
   private alive = true;
 
+  globalStats: any = [];
   userActivity: UserActive[] = [];
   type = 'month';
   types = ['week', 'month', 'year'];
   currentTheme: string;
-  positivity_rate = []
+  positivity_rate = [];
+  total_readings = [];
 
   constructor(private themeService: NbThemeService,
-              private userActivityService: UserActivityData) {
+              private userActivityService: UserActivityData, private sharedService: SharedService) {
     this.themeService.getJsTheme()
       .pipe(takeWhile(() => this.alive))
       .subscribe(theme => {
         this.currentTheme = theme.name;
-    });
-    this.positivity_rate = [{test_type: "sd_bioline", deltaUp: true, newVisits: 11, pagesVisitCount: 1100},
-    {test_type: "carestart", deltaUp: false, newVisits: 32, pagesVisitCount: 2150}]
+      });
 
+    this.sharedService.globalStats
+      .pipe(filter(results => !!results.data))
+      .subscribe(result => {
+        this.globalStats = result.data;
+        this.positivity_rate = result.data.positive_readings_per_profile_sum;
+        this.total_readings = result.data.total_readings_per_profile_sum;
+      });
 
     this.getUserActivity(this.type);
   }
@@ -39,6 +47,10 @@ export class StatsUserActivityComponent implements OnDestroy {
       .subscribe(userActivityData => {
         this.userActivity = userActivityData;
       });
+  }
+
+  getPositivityPercentage(key){
+    return Math.round(this.positivity_rate[key]/this.total_readings[key] * 100)
   }
 
   ngOnDestroy() {

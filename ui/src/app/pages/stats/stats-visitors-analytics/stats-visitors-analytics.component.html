@@ -8,11 +8,11 @@
       <div class="chart-header">
         <ngx-stats-legend-chart [legendItems]="chartLegend"></ngx-stats-legend-chart>
       </div>
-      <ngx-stats-visitors-analytics-chart [chartData]="visitorsAnalyticsData"></ngx-stats-visitors-analytics-chart>
+      <ngx-stats-visitors-analytics-chart></ngx-stats-visitors-analytics-chart>
     </div>
   </nb-card-body>
 
   <ngx-stats-slide-out [showVisitorsStatistics]="true">
-    <ngx-stats-visitors-statistics [value]="pieChartValue"></ngx-stats-visitors-statistics>
+    <ngx-stats-visitors-statistics></ngx-stats-visitors-statistics>
   </ngx-stats-slide-out>
 </nb-card>

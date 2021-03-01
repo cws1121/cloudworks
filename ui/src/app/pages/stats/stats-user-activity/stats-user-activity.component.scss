@@ -50,4 +50,11 @@
       vertical-align: top;
     }
   }
+  .w-150{
+    width: 150px;
+  }
+  .overflow-eliipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

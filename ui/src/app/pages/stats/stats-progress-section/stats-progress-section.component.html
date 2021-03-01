@@ -1,11 +1,11 @@
 <nb-card size="medium">
   <nb-card-body>
-    <div class="progress-info" *ngFor="let item of readingsByWorkspaces">
-      <div class="subtitle">{{ item.title }}</div>
-      <div class="h3">{{ item.value | ngxNumberWithCommas }}</div>
-      <nb-progress-bar [value]="item.activeProgress" [displayValue]="true"></nb-progress-bar>
+    <div class="progress-info" *ngFor="let item of positivityRateByDomain">
+      <div class="subtitle">{{ item.domain_name }}</div>
+      <div class="h3">{{ item.total_readings | ngxNumberWithCommas }}</div>
+      <nb-progress-bar [value]="item.positive_readings/item.total_readings * 100 | number : '1.0-0'" [displayValue]="true"></nb-progress-bar>
       <div class="caption description">
-        <bdi>{{ item.description }}</bdi>
+        <bdi>{{ generatePositivityRateDescription(item.positive_readings, item.total_readings)}}</bdi>
       </div>
     </div>
   </nb-card-body>

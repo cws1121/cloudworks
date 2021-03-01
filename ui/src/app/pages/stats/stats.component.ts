@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {SharedService} from '../../shared.service';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-stats',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StatsComponent implements OnInit {
 
-  constructor() { }
+  globalStats = {
+    total_readings: 'N/A',
+    positive_readings: 'N/A',
+    agreement: 'N/A',
+    positivity_rate: 'N/A',
+    total_readings_per_profile_sum: 'N/A',
+    positive_readings_per_profile_sum: 'N/A'
+  };
+
+  constructor(private sharedService: SharedService) { }
 
   ngOnInit(): void {
+    this.sharedService.globalStats
+      .pipe(filter(results => !!results.data))
+      .subscribe(result => {
+        this.globalStats = result.data;
+      });
   }
-
 }

@@ -33,7 +33,7 @@
               <ng-template #thenBlock><a href="{{item.session.media_list[0].file}}" target="_blank">{{item.time_read | formatDataTime}}</a></ng-template>
               <ng-template #elseBlock>{{item.time_read | formatDataTime}}</ng-template>
             </td>
-            <td>{{item.session.time_resolved | resultsExpiry: item.session.time_expired}}</td>
+            <td>{{item.time_read | resultsExpiry: item.session.time_resolved : item.session.time_expired}}</td>
             <td class="text-center">N/A</td>
           </tr>
           </tbody>

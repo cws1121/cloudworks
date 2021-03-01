@@ -1,7 +1,9 @@
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
-import { delay, takeWhile } from 'rxjs/operators';
+import {delay, filter, takeWhile} from 'rxjs/operators';
 import { LayoutService } from '../../../../@core/utils/layout.service';
+import {combineLatest} from 'rxjs';
+import {SharedService} from '../../../../shared.service';
 
 
 @Component({
@@ -13,14 +15,21 @@ export class StatsVisitorsStatisticsComponent implements AfterViewInit, OnDestro
 
   private alive = true;
 
-  @Input() value: number;
+  globalStats = {
+    total_readings: 'N/A',
+    positive_readings: 'N/A',
+    agreement: 'N/A',
+    positivity_rate: 22,
+    readings_chart_data:[]
+  };
 
   option: any = {};
   chartLegend: { iconColor: string; title: string }[];
   echartsIntance: any;
 
   constructor(private theme: NbThemeService,
-              private layoutService: LayoutService) {
+              private layoutService: LayoutService,
+              private sharedService: SharedService) {
     this.layoutService.onSafeChangeLayoutSize()
       .pipe(
         takeWhile(() => this.alive),
@@ -29,18 +38,20 @@ export class StatsVisitorsStatisticsComponent implements AfterViewInit, OnDestro
   }
 
   ngAfterViewInit() {
-    this.theme.getJsTheme()
-      .pipe(
-        takeWhile(() => this.alive),
-        delay(1),
-      )
-      .subscribe(config => {
-        const variables: any = config.variables;
-        const visitorsPieLegend: any = config.variables.visitorsPieLegend;
+    let globalStatsPromise = this.sharedService.globalStats;
+    let jsThemePromise = this.theme.getJsTheme();
 
-        this.setOptions(variables);
+    combineLatest([globalStatsPromise, jsThemePromise])
+      .pipe(filter(results => !!results[0].data))
+      .pipe(takeWhile(() => this.alive))
+      .subscribe(results => {
+        this.globalStats = results[0].data;
+        const variables: any = results[1].variables;
+        const visitorsPieLegend: any = results[1].variables.visitorsPieLegend;
+
         this.setLegendItems(visitorsPieLegend);
-    });
+        this.refreshChart(variables)
+      });
   }
 
   setLegendItems(visitorsPieLegend) {
@@ -74,7 +85,7 @@ export class StatsVisitorsStatisticsComponent implements AfterViewInit, OnDestro
           radius: visitorsPie.firstPieRadius,
           data: [
             {
-              value: this.value,
+              value: 100-this.globalStats.positivity_rate,
               name: ' ',
               label: {
                 normal: {
@@ -112,7 +123,7 @@ export class StatsVisitorsStatisticsComponent implements AfterViewInit, OnDestro
               hoverAnimation: false,
             },
             {
-              value: 100 - this.value,
+              value: this.globalStats.positivity_rate,
               name: ' ',
               tooltip: {
                 show: false,
@@ -139,7 +150,7 @@ export class StatsVisitorsStatisticsComponent implements AfterViewInit, OnDestro
           radius: visitorsPie.secondPieRadius,
           data: [
             {
-              value: this.value,
+              value: 100-this.globalStats.positivity_rate,
               name: ' ',
               label: {
                 normal: {
@@ -164,7 +175,7 @@ export class StatsVisitorsStatisticsComponent implements AfterViewInit, OnDestro
               hoverAnimation: false,
             },
             {
-              value: 100 - this.value,
+              value: this.globalStats.positivity_rate,
               name: ' ',
               tooltip: {
                 show: false,
@@ -201,6 +212,10 @@ export class StatsVisitorsStatisticsComponent implements AfterViewInit, OnDestro
 
   onChartInit(echarts) {
     this.echartsIntance = echarts;
+  }
+
+  refreshChart(variables){
+    this.setOptions(variables)
   }
 
   resizeChart() {

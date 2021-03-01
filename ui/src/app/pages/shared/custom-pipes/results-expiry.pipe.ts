@@ -7,13 +7,19 @@ import * as moment from 'moment';
 })
 export class ResultsExpiryPipe implements PipeTransform {
 
-  transform(value: string, args?: any): any {
-    return this.resultsExpiry(value, args);
+  transform(value: string, timeResolved?: any, timeExpired?: any): any {
+    return this.resultsExpiry(value, timeResolved, timeExpired);
   }
-  resultsExpiry(timeResolved: string, timeExpired: string): String{
+  resultsExpiry(timeRead: string, timeResolved: string, timeExpired: string): String{
     let output = '';
-    if (timeResolved && timeExpired){
-      output = moment(timeResolved) > moment(timeExpired) ? 'Yes' : 'No'
+    if (timeRead && timeResolved && timeExpired){
+      if ((moment(timeRead) >= moment(timeResolved)) && (moment(timeRead) <= moment(timeExpired))){
+        output = 'Valid'
+      }else if(moment(timeRead) < moment(timeResolved)){
+        output = 'Captured too early'
+      }else if(moment(timeRead) > moment(timeExpired)){
+        output = 'Captured too late'
+      }
     }
     return output || 'N/A';
   }
