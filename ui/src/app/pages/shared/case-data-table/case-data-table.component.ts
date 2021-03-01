@@ -26,7 +26,7 @@ export class CaseDataTableComponent implements OnInit, OnDestroy {
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true,
-      order:[[8, 'desc']]
+      order:[[6, 'desc']]
     };
 
     this.sharedService.testResultList
@@ -50,6 +50,18 @@ export class CaseDataTableComponent implements OnInit, OnDestroy {
         this.dtTrigger.next();
       });
     }
+  }
+
+  getInstructionsViewedAttr(metrics){
+    if (!metrics) return 'N/A';
+    var metrics_json = JSON.parse(metrics.replaceAll("'", "\""))
+    return (metrics_json && metrics_json['data'] && metrics_json['data']['instructions_viewed']) || 'N/A'
+  }
+
+  getClassifierModeAttr(raw_payload){
+    if (!raw_payload) return 'N/A';
+    var raw_payload_json = JSON.parse(raw_payload.replaceAll("'", "\""))
+    return (raw_payload_json && raw_payload_json['configuration'] && raw_payload_json['configuration']['classifier_mode']) || 'N/A'
   }
 
   ngOnDestroy(): void {

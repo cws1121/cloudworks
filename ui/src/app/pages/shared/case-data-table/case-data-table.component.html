@@ -6,35 +6,29 @@
           <thead>
           <tr>
             <th>Case ID</th>
-            <th>User ID</th>
             <th>Test Type Shorthand</th>
-            <th>Classifier Used</th>
             <th>Classifier Output</th>
             <th>User Output</th>
             <th>Mode of Verification Used</th>
             <th>Instructions Read</th>
             <th>Image Timestamp (Click for Image)</th>
             <th style="min-width: 80px">Results Expiry</th>
-            <th>Location</th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let item of testResultList">
             <td>{{item.session.session_id}}</td>
-            <td class="text-center">N/A</td>
             <td>{{item.session.test_profile_id}}</td>
-            <td class="text-center">N/A</td>
             <td class="text-center">{{item.classifier_results | formatResultsJson}}</td>
             <td class="text-center">{{item.results | formatResultsJson}}</td>
-            <td class="text-center">N/A</td>
-            <td class="text-center">N/A</td>
+            <td class="text-center">{{getClassifierModeAttr(item.session.raw_payload)}}</td>
+            <td class="text-center">{{getInstructionsViewedAttr(item.session.metrics)}}</td>
             <td>
               <div *ngIf="item.session.media_list[0] && item.session.media_list[0].file; then thenBlock else elseBlock"></div>
               <ng-template #thenBlock><a href="{{item.session.media_list[0].file}}" target="_blank">{{item.time_read | formatDataTime}}</a></ng-template>
               <ng-template #elseBlock>{{item.time_read | formatDataTime}}</ng-template>
             </td>
             <td>{{item.time_read | resultsExpiry: item.session.time_resolved : item.session.time_expired}}</td>
-            <td class="text-center">N/A</td>
           </tr>
           </tbody>
         </table>
