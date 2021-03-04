@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject} from 'rxjs';
 import {environment} from '../environments/environment';
 import * as moment from 'moment';
+import {NbAuthService} from '@nebular/auth';
 
 
 @Injectable({
@@ -28,7 +29,7 @@ export class SharedService {
   private globalStatsStream = new BehaviorSubject<any>([]);
   globalStats = this.globalStatsStream.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private _authService: NbAuthService) {
     this.updateContext();
     this.reloadDateRange();
   }
@@ -105,6 +106,25 @@ export class SharedService {
       .post(this.NgAPIUrl + '/switch_domain/', {
         domain_id: domainId
       });
+  }
+
+  downloadFile(file_path) {
+    var a = document.createElement('A') as HTMLAnchorElement;
+    a.href = file_path;
+    a.download = file_path.substr(file_path.lastIndexOf('/') + 1);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  exportCaseDataToXLS() {
+    this._authService.getToken().subscribe(token => {
+        var file_path = this.NgAPIUrl + '/export_case_data_to_xls/?' +
+        'end_date=' + this.dateRange.endDate.format('YYYY-MM-DD') +
+        '&start_date=' + this.dateRange.startDate.format('YYYY-MM-DD') +
+        '&jwt=' + token;
+        this.downloadFile(file_path);
+    });
   }
 
   reloadDateRange() {

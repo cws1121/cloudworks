@@ -1,11 +1,16 @@
 from __future__ import division
 import json
+import xlwt
 from datetime import datetime, timedelta
 
+from django.core.exceptions import ValidationError
+from django.http.response import HttpResponse
+from django.utils.encoding import smart_str
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser
+from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
 from django.db.models.functions import TruncDate
 from django.db.models import Count, Case, When, IntegerField, Q, F, Value, Sum
 
@@ -334,7 +339,7 @@ class SwitchDomain(GenericAPIView):
     """
     Switch admin user domain
 
-    * Requires JWT authentication token and superadmin role.
+    * Requires JWT authentication token and staff role.
     """
     authentication_classes = [JSONWebTokenAuthentication]
     permission_classes = (IsAdminUser,)
@@ -351,3 +356,59 @@ class SwitchDomain(GenericAPIView):
             'status': 'success',
             'code': status.HTTP_200_OK
         })
+
+
+class ExportCaseData(GenericAPIView):
+    """
+    Export Case Data to XLS
+
+    * Requires JWT authentication token.
+    """
+
+    def get(self, request, *args, **kwargs):
+        start_date = request.GET.get('start_date')
+        end_date = request.GET.get('end_date')
+        jwt_token = request.GET.get('jwt')
+
+        try:
+            data = {'token': jwt_token}
+            valid_data = VerifyJSONWebTokenSerializer().validate(data)
+            user = valid_data['user']
+            request.user = user
+        except ValidationError as v:
+            print("validation error", v)
+            return
+
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="test_results.xls"'
+
+        test_results = TestResult.objects.filter(
+            session__domain=request.user.current_workspace,
+            time_read__gte=start_date,
+            time_read__lte=end_date
+        ).order_by('-time_read')
+
+        tr_records = TestResultSerializer(test_results, many=True).data
+        wb = xlwt.Workbook(encoding='utf-8')
+
+        ws = wb.add_sheet('TestResults')
+        row_num = 0
+
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+
+        columns = ['Time Read', 'Results', 'Classifier Eesults', 'Session Record']
+
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+
+        keys = ['time_read', 'results', 'classifier_results', 'session']
+        for row in tr_records:
+            row = [row[key_item] for key_item in keys]
+            row_num += 1
+            for col_num in range(len(row)):
+                ws.write(row_num, col_num, smart_str(row[col_num]), font_style)
+            ws.write(row_num, len(row), "UTC", font_style)
+
+        wb.save(response)
+        return response

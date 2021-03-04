@@ -26,7 +26,7 @@ export class CaseDataTableComponent implements OnInit, OnDestroy {
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true,
-      order:[[6, 'desc']]
+      order:[[7, 'desc']]
     };
 
     this.sharedService.testResultList
@@ -52,6 +52,12 @@ export class CaseDataTableComponent implements OnInit, OnDestroy {
     }
   }
 
+  getImageCaptureAttemptsAttr(metrics){
+    if (!metrics) return 'N/A';
+    var metrics_json = JSON.parse(metrics.replaceAll("'", "\""))
+    return (metrics_json && metrics_json['data'] && metrics_json['data']['image_capture_attempts']) || 'N/A'
+  }
+
   getInstructionsViewedAttr(metrics){
     if (!metrics) return 'N/A';
     var metrics_json = JSON.parse(metrics.replaceAll("'", "\""))
@@ -62,6 +68,10 @@ export class CaseDataTableComponent implements OnInit, OnDestroy {
     if (!raw_payload) return 'N/A';
     var raw_payload_json = JSON.parse(raw_payload.replaceAll("'", "\""))
     return (raw_payload_json && raw_payload_json['configuration'] && raw_payload_json['configuration']['classifier_mode']) || 'N/A'
+  }
+
+  exportToXLS(){
+    this.sharedService.exportCaseDataToXLS()
   }
 
   ngOnDestroy(): void {

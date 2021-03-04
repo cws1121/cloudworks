@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^dashboard_stats/', views.DashboardStatsView.as_view()),
     url(r'^global_stats/', views.GlobalStatsView.as_view()),
     url(r'^switch_domain/', views.SwitchDomain.as_view()),
+    url(r'^export_case_data_to_xls/', views.ExportCaseData.as_view()),
 ]

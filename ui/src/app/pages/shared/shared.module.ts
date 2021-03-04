@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {
   NbCardModule,
   NbIconModule,
+  NbButtonModule
 } from '@nebular/theme';
 import {PageHeaderComponent} from './page-header/page-header.component';
 import {CaseDataTableComponent} from './case-data-table/case-data-table.component';
@@ -20,6 +21,7 @@ import {ResultsExpiryPipe} from './custom-pipes/results-expiry.pipe';
     CommonModule,
     NbIconModule,
     NbCardModule,
+    NbButtonModule,
     DataTablesModule,
     ChartsModule,
     NgxEchartsModule,
