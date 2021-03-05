@@ -15,6 +15,7 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {FormatDatetimePipe} from './custom-pipes/format-datetime.pipe';
 import {FormatResultsJsonPipe} from './custom-pipes/format-results-json.pipe';
 import {ResultsExpiryPipe} from './custom-pipes/results-expiry.pipe';
+import {DialogCaseDetailsComponent} from './case-data-table/dialog-case-details/dialog-case-details.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import {ResultsExpiryPipe} from './custom-pipes/results-expiry.pipe';
     CaseHeatmapComponent,
     FormatDatetimePipe,
     FormatResultsJsonPipe,
-    ResultsExpiryPipe
+    ResultsExpiryPipe,
+    DialogCaseDetailsComponent
   ],
   exports: [
     PageHeaderComponent,
@@ -42,7 +44,8 @@ import {ResultsExpiryPipe} from './custom-pipes/results-expiry.pipe';
     FormatDatetimePipe,
     FormatResultsJsonPipe,
     ResultsExpiryPipe
-  ]
+  ],
+  entryComponents:[DialogCaseDetailsComponent]
 })
 export class SharedModule {
 }

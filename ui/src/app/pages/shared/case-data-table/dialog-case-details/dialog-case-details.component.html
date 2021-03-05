@@ -1,0 +1,9 @@
+<nb-card>
+  <nb-card-header>{{ record.session.session_id }}</nb-card-header>
+  <nb-card-body>
+    <pre>{{ record  | json}}</pre>
+  </nb-card-body>
+  <nb-card-footer>
+    <button nbButton status="primary" (click)="dismiss()" class="float-right">Dismiss Dialog</button>
+  </nb-card-footer>
+</nb-card>

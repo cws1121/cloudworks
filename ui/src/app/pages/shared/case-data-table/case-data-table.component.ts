@@ -3,6 +3,9 @@ import {SharedService} from '../../../shared.service';
 import {Subject} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {DataTableDirective} from 'angular-datatables';
+import {DialogNamePromptComponent} from '../../modal-overlays/dialog/dialog-name-prompt/dialog-name-prompt.component';
+import {NbDialogService} from '@nebular/theme';
+import {DialogCaseDetailsComponent} from './dialog-case-details/dialog-case-details.component';
 
 @Component({
   selector: 'ngx-case-data-table',
@@ -18,7 +21,7 @@ export class CaseDataTableComponent implements OnInit, OnDestroy {
   dtTrigger: Subject<any> = new Subject<any>();
   testResultList = [];
 
-  constructor(private sharedService: SharedService) {
+  constructor(private sharedService: SharedService, private dialogService: NbDialogService) {
   }
 
   ngOnInit(): void {
@@ -68,6 +71,15 @@ export class CaseDataTableComponent implements OnInit, OnDestroy {
     if (!raw_payload) return 'N/A';
     var raw_payload_json = JSON.parse(raw_payload.replaceAll("'", "\""))
     return (raw_payload_json && raw_payload_json['configuration'] && raw_payload_json['configuration']['classifier_mode']) || 'N/A'
+  }
+
+  showCaseRecordDetails(record) {
+    this.dialogService.open(DialogCaseDetailsComponent,{
+      context: {
+        record: record
+      },
+    })
+      .onClose.subscribe(name => name && console.log(name));
   }
 
   exportToXLS(){
