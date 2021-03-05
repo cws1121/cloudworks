@@ -4,10 +4,11 @@
   tbody {
     tr {
       background-color: #222b45 !important;
-      cursor: pointer;
     }
   }
-
+  .cursor-pointer {
+    cursor: pointer;
+  }
   ::ng-deep {
     .dataTables_wrapper .dataTables_length,
     .dataTables_wrapper .dataTables_filter,

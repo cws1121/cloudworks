@@ -21,7 +21,7 @@
           </thead>
           <tbody>
           <tr *ngFor="let item of testResultList">
-            <td (click)="showCaseRecordDetails(item)">{{item.session.session_id}}</td>
+            <td (click)="showCaseRecordDetails(item)" class="cursor-pointer">{{item.session.session_id}}</td>
             <td>{{item.session.test_profile_id}}</td>
             <td class="text-center">{{item.classifier_results | formatResultsJson}}</td>
             <td class="text-center">{{item.results | formatResultsJson}}</td>
