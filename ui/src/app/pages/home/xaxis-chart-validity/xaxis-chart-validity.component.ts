@@ -67,6 +67,9 @@ export class XaxisChartValidityComponent implements OnDestroy {
               fontColor: chartjs.textColor,
             },
           },
+          tooltips: {
+            mode: 'x'
+          },
           hover: {
             mode: 'index',
           },

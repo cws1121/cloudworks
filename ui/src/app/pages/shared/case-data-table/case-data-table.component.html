@@ -2,7 +2,10 @@
   <div class="col-md-12">
     <nb-card>
       <nb-card-header>
-        <button nbButton status="primary" (click)="exportToXLS()" class="float-right"><nb-icon icon="download"></nb-icon>Export to XLS</button>
+        <button nbButton status="primary" (click)="exportToXLS()" class="float-right">
+          <nb-icon icon="download"></nb-icon>
+          Export to XLS
+        </button>
       </nb-card-header>
       <nb-card-body>
         <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
@@ -15,13 +18,14 @@
             <th>Mode of Verification Used</th>
             <th>Instructions Read</th>
             <th>Image Capture Attempts</th>
-            <th>Image Timestamp (Click for Image)</th>
+            <th>Image Timestamp</th>
             <th style="min-width: 80px">Results Expiry</th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let item of testResultList">
-            <td (click)="showCaseRecordDetails(item)" class="cursor-pointer">{{item.session.session_id}}</td>
+            <td (click)="showCaseRecordDetails(item)" class="cursor-pointer" nbTooltip="Show session details."
+                nbTooltipPlacement="top"><a href="javascript:;">{{item.session.session_id}}</a></td>
             <td>{{item.session.test_profile_id}}</td>
             <td class="text-center">{{item.classifier_results | formatResultsJson}}</td>
             <td class="text-center">{{item.results | formatResultsJson}}</td>
@@ -31,7 +35,8 @@
             <td>
               <div
                 *ngIf="item.session.media_list[0] && item.session.media_list[0].file; then thenBlock else elseBlock"></div>
-              <ng-template #thenBlock><a href="{{item.session.media_list[0].file}}"
+              <ng-template #thenBlock><a nbTooltip="Click for Image."
+                nbTooltipPlacement="top" href="{{item.session.media_list[0].file}}"
                                          target="_blank">{{item.time_read | formatDataTime}}</a></ng-template>
               <ng-template #elseBlock>{{item.time_read | formatDataTime}}</ng-template>
             </td>

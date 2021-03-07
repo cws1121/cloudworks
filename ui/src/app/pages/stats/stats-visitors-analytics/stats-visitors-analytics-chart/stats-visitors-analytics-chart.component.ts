@@ -1,8 +1,7 @@
-import {delay, filter, takeWhile} from 'rxjs/operators';
+import {filter, takeWhile} from 'rxjs/operators';
 import {AfterViewInit, Component, Input, OnDestroy} from '@angular/core';
 import {NbThemeService} from '@nebular/theme';
 import {LayoutService} from '../../../../@core/utils';
-import {OutlineData} from '../../../../@core/data/visitors-analytics';
 import {SharedService} from '../../../../shared.service';
 import {combineLatest} from 'rxjs';
 
@@ -25,7 +24,7 @@ export class StatsVisitorsAnalyticsChartComponent implements AfterViewInit, OnDe
   option: any;
   themeSubscription: any;
   echartsIntance: any;
-  chartData:any =[];
+  chartData: any = [];
 
   constructor(private theme: NbThemeService,
               private layoutService: LayoutService,
@@ -48,15 +47,22 @@ export class StatsVisitorsAnalyticsChartComponent implements AfterViewInit, OnDe
       .subscribe(results => {
         this.chartData = results[0].data.readings_chart_data;
         const eTheme: any = results[1].variables.visitors;
-        this.refreshChart(eTheme)
+        this.refreshChart(eTheme);
       });
   }
 
   setOptions(eTheme) {
     this.option = {
+      legend: {
+        show: true,
+        textStyle: {
+          color: 'white'
+        },
+        icon: 'rect'
+      },
       grid: {
         left: 40,
-        top: 20,
+        top: 50,
         right: 0,
         bottom: 60,
       },
@@ -71,17 +77,13 @@ export class StatsVisitorsAnalyticsChartComponent implements AfterViewInit, OnDe
         },
         textStyle: {
           color: eTheme.tooltipTextColor,
-          fontSize: 20,
+          fontSize: 12,
           fontWeight: eTheme.tooltipFontWeight,
         },
-        position: 'top',
+        position: 'bottom',
         backgroundColor: eTheme.tooltipBg,
         borderColor: eTheme.tooltipBorderColor,
         borderWidth: 1,
-        formatter: (params) => {
-          return Math.round(parseInt(params[0].value, 10));
-        },
-        extraCssText: eTheme.tooltipExtraCss,
       },
       xAxis: {
         type: 'category',
@@ -143,12 +145,15 @@ export class StatsVisitorsAnalyticsChartComponent implements AfterViewInit, OnDe
 
   getOuterLine(eTheme, data, label) {
     return {
+      name: label,
       type: 'line',
       smooth: true,
-      symbolSize: 20,
+      symbolSize: 10,
       itemStyle: {
+        color: this.intToHEX(this.hashCode(label)),
         normal: {
           opacity: 0,
+          color: this.intToHEX(this.hashCode(label)),
         },
         emphasis: {
           color: '#ffffff',
@@ -171,52 +176,12 @@ export class StatsVisitorsAnalyticsChartComponent implements AfterViewInit, OnDe
     };
   }
 
-  getInnerLine(eTheme, data, label) {
-    return {
-      type: 'line',
-      smooth: true,
-      symbolSize: 20,
-      tooltip: {
-        show: false,
-        extraCssText: '',
-      },
-      itemStyle: {
-        normal: {
-          opacity: 0,
-        },
-        emphasis: {
-          opacity: 0,
-        },
-      },
-      lineStyle: {
-        normal: {
-          width: eTheme.innerLineWidth,
-          type: eTheme.innerLineStyle,
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1),
-        },
-      },
-      areaStyle: {
-        normal: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-            offset: 0,
-            color: this.intToHEX(this.hashCode(label)),
-          }, {
-            offset: 1,
-            color: this.intToHEX(this.hashCode(label)),
-          }]),
-          opacity: 0.8,
-        },
-      },
-      data: data,
-    };
-  }
-
   onChartInit(echarts) {
     this.echartsIntance = echarts;
   }
 
-  refreshChart(eTheme){
-    this.setOptions(eTheme)
+  refreshChart(eTheme) {
+    this.setOptions(eTheme);
   }
 
   resizeChart() {

@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
+import {AfterViewInit, Component, Input, OnDestroy} from '@angular/core';
+import {NbThemeService} from '@nebular/theme';
 import {delay, filter, takeWhile} from 'rxjs/operators';
-import { LayoutService } from '../../../../@core/utils/layout.service';
+import {LayoutService} from '../../../../@core/utils/layout.service';
 import {combineLatest} from 'rxjs';
 import {SharedService} from '../../../../shared.service';
 
@@ -19,8 +19,8 @@ export class StatsVisitorsStatisticsComponent implements AfterViewInit, OnDestro
     total_readings: 'N/A',
     positive_readings: 'N/A',
     agreement: 'N/A',
-    positivity_rate: 22,
-    readings_chart_data:[]
+    positivity_rate: 0,
+    readings_chart_data: []
   };
 
   option: any = {};
@@ -50,7 +50,7 @@ export class StatsVisitorsStatisticsComponent implements AfterViewInit, OnDestro
         const visitorsPieLegend: any = results[1].variables.visitorsPieLegend;
 
         this.setLegendItems(visitorsPieLegend);
-        this.refreshChart(variables)
+        this.refreshChart(variables);
       });
   }
 
@@ -85,7 +85,7 @@ export class StatsVisitorsStatisticsComponent implements AfterViewInit, OnDestro
           radius: visitorsPie.firstPieRadius,
           data: [
             {
-              value: 100-this.globalStats.positivity_rate,
+              value: 100 - this.globalStats.positivity_rate,
               name: ' ',
               label: {
                 normal: {
@@ -150,7 +150,7 @@ export class StatsVisitorsStatisticsComponent implements AfterViewInit, OnDestro
           radius: visitorsPie.secondPieRadius,
           data: [
             {
-              value: 100-this.globalStats.positivity_rate,
+              value: 100 - this.globalStats.positivity_rate,
               name: ' ',
               label: {
                 normal: {
@@ -214,8 +214,8 @@ export class StatsVisitorsStatisticsComponent implements AfterViewInit, OnDestro
     this.echartsIntance = echarts;
   }
 
-  refreshChart(variables){
-    this.setOptions(variables)
+  refreshChart(variables) {
+    this.setOptions(variables);
   }
 
   resizeChart() {

@@ -5,7 +5,28 @@
     max-width: 800px;
     max-height: 600px;
   }
-  pre{
+  pre {
     color: white;
+  }
+  //horizontal scrollbar style
+  ::-webkit-scrollbar {
+    width: 0.3125rem;
+    height: 0.3125rem;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #192038;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #101426;
+    cursor: pointer;
+    border-radius: 0.15625rem;
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: #101426;
+    cursor: pointer;
+    border-radius: 0.15625rem;
   }
 }

@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {
   NbCardModule,
   NbIconModule,
-  NbButtonModule
+  NbButtonModule, NbTooltipModule
 } from '@nebular/theme';
 import {PageHeaderComponent} from './page-header/page-header.component';
 import {CaseDataTableComponent} from './case-data-table/case-data-table.component';
@@ -26,7 +26,8 @@ import {DialogCaseDetailsComponent} from './case-data-table/dialog-case-details/
     DataTablesModule,
     ChartsModule,
     NgxEchartsModule,
-    NgxChartsModule
+    NgxChartsModule,
+    NbTooltipModule
   ],
   declarations: [
     PageHeaderComponent,
