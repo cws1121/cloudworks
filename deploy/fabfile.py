@@ -36,7 +36,7 @@ def deploy():
                 sudo('git fetch origin')
                 sudo('git reset --hard origin/{}'.format(code_branch))
                 sudo('python_env/bin/pip install -r requirements/prod-requirements.txt -r requirements/requirements.txt ')
-                # sudo('python_env/bin/python manage.py collectstatic --no-input')
+                sudo('python_env/bin/python manage.py collectstatic --no-input')
                 sudo('python_env/bin/python manage.py migrate --no-input')
                 # sudo('sudo ./bin/gunicorn_start')
                 sudo('sudo supervisorctl restart all')
@@ -46,14 +46,15 @@ def deploy_and_build():
     with settings(sudo_user=env.web_user):
         with shell_env(HOME='/home/{}/'.format(env.web_user)):
             code_branch = getattr(env, 'code_branch', 'master')
+            with cd('/home/web/www/cloudworks/ui'):
+                sudo('npm install')
+                sudo('node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build  --prod')
+
             with cd('/home/web/www/cloudworks/django_backend'):
                 sudo('git fetch origin')
                 sudo('git reset --hard origin/{}'.format(code_branch))
                 sudo('python_env/bin/pip install -r requirements/prod-requirements.txt -r requirements/requirements.txt ')
                 sudo('python_env/bin/python manage.py collectstatic --no-input')
                 sudo('python_env/bin/python manage.py migrate --no-input')
-
-            with cd('/home/web/www/cloudworks/ui'):
-                sudo('npm install')
-                sudo('node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build  --prod')
                 sudo('sudo supervisorctl restart all')
+
