@@ -68,9 +68,11 @@ export class CaseDataTableComponent implements OnInit, OnDestroy {
   }
 
   getClassifierModeAttr(raw_payload){
-    if (!raw_payload) return 'N/A';
-    var raw_payload_json = JSON.parse(raw_payload.replaceAll("'", "\""))
-    return (raw_payload_json && raw_payload_json['configuration'] && raw_payload_json['configuration']['classifier_mode']) || 'N/A'
+    // this value is hardcoded becuase client is not sending accurate values for this attribute
+    return 'BLIND';
+    // if (!raw_payload) return 'N/A';
+    // var raw_payload_json = JSON.parse(raw_payload.replaceAll("'", "\""))
+    // return (raw_payload_json && raw_payload_json['configuration'] && raw_payload_json['configuration']['classifier_mode']) || 'N/A'
   }
 
   showCaseRecordDetails(record) {
