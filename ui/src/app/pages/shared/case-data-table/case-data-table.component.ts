@@ -62,9 +62,9 @@ export class CaseDataTableComponent implements OnInit, OnDestroy {
   }
 
   getInstructionsViewedAttr(metrics){
-    if (!metrics) return 'N/A';
+    if (!metrics) return 'false';
     var metrics_json = JSON.parse(metrics.replaceAll("'", "\""))
-    return (metrics_json && metrics_json['data'] && metrics_json['data']['instructions_viewed']) || 'N/A'
+    return (metrics_json && metrics_json['data'] && metrics_json['data']['instructions_viewed']) || 'false'
   }
 
   getClassifierModeAttr(raw_payload){
