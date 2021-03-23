@@ -69,7 +69,7 @@ export class SharedService {
         (data: any) => {
           this.rdtImagesStream.next(data);
         },
-        (err: any) => console.error('rdtImagesList: ERROR')
+        (err: any) => console.error('updateRdtImagesList: ERROR')
       );
   }
 
@@ -83,7 +83,7 @@ export class SharedService {
         (data: any) => {
           this.dashboardStatsStream.next(data);
         },
-        (err: any) => console.error('rdtImagesList: ERROR')
+        (err: any) => console.error('updateDashboardStats: ERROR')
       );
   }
 
@@ -97,7 +97,7 @@ export class SharedService {
         (data: any) => {
           this.globalStatsStream.next(data);
         },
-        (err: any) => console.error('rdtImagesList: ERROR')
+        (err: any) => console.error('updateGlobalStats: ERROR')
       );
   }
 

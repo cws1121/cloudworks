@@ -57,4 +57,3 @@ def deploy_and_build():
                 sudo('python_env/bin/python manage.py collectstatic --no-input')
                 sudo('python_env/bin/python manage.py migrate --no-input')
                 sudo('sudo supervisorctl restart all')
-

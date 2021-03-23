@@ -36,7 +36,7 @@
               <div
                 *ngIf="item.session.media_list[0] && item.session.media_list[0].file; then thenBlock else elseBlock"></div>
               <ng-template #thenBlock><a nbTooltip="Click for Image."
-                nbTooltipPlacement="top" href="{{item.session.media_list[0].file}}"
+                                         nbTooltipPlacement="top" href="{{item.session.media_list[0].file}}"
                                          target="_blank">{{item.time_read | formatDataTime}}</a></ng-template>
               <ng-template #elseBlock>{{item.time_read | formatDataTime}}</ng-template>
             </td>

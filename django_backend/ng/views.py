@@ -32,7 +32,8 @@ class Context(GenericAPIView):
     def post(self, request, *args, **kwargs):
         user_serializer = UserSerializer(request.user)
         domain_serializer = DomainSerializer(request.user.current_workspace)
-        current_domain = available_domains = domain_serializer.data
+        current_domain = domain_serializer.data
+        available_domains = [current_domain]
 
         if request.user.is_staff:
             available_domains = Domain.objects.all()
