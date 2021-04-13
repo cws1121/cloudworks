@@ -122,6 +122,32 @@ class TestRdtAPI(TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertTrue(Media.objects.filter(session=test_session).exists())
 
+    @patch('storages.backends.s3boto3.S3Boto3Storage.save')
+    def test_duplicated_ingest_media_requests(self, mock_save):
+        mock_save.return_value = 'test.png'
+        test_session = bootstrap_test_session()
+
+        url_args = {
+            'dsn': self.dsn_token,
+            'guid': test_session.session_id,
+            'media_id': 'cropped'
+        }
+
+        headers = {
+            'HTTP_CONTENT_DISPOSITION': 'attachment; filename=test.png',
+            'HTTP_CONTENT_TYPE': 'image/png'
+        }
+
+        response = self.client.put(reverse('ingest_media', kwargs=url_args), data=FakeMediaFactory.get_test_file(),
+                                   **headers)
+
+        self.assertEqual(response.status_code, 201)
+
+        response = self.client.put(reverse('ingest_media', kwargs=url_args), data=FakeMediaFactory.get_test_file(),
+                                   **headers)
+
+        self.assertEqual(response.status_code, 409)
+
     def test_ingest_test_session_logs_method(self):
         test_session = bootstrap_test_session()
 
