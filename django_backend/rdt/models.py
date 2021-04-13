@@ -94,3 +94,8 @@ class Media(models.Model):
     file = models.FileField()
     uploaded_at = models.DateTimeField(auto_now_add=True)
     deleted_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['session_id', 'external_id'], name='unique media record')
+        ]

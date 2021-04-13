@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.parsers import FileUploadParser
 
 from rdt.api.serializers import IngestTestSessionSerializer, MediaSerializer, IngestTestSessionLogSerializer
-from rdt.models import TestSession
+from rdt.models import TestSession, Media
 from domain.authentication import CollectorAuthentication
 
 
@@ -55,6 +55,10 @@ class IngestMedia(WriteOnlyAPIView):
     def put(self, request, *args, **kwargs):
         request.data['session'] = kwargs.get('guid')
         request.data['external_id'] = kwargs.get('media_id')
+
+        if Media.objects.filter(session_id=kwargs.get('guid'), external_id=kwargs.get('media_id')).exists():
+            return Response('Media record with the same id already exists.', status=status.HTTP_409_CONFLICT)
+
         return self.create(request, *args, **kwargs)
 
 
