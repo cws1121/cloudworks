@@ -173,7 +173,6 @@ class TestRdtAPI(TestCase):
                     },
                     "media_key" : "error_image_1"
                 }
-
             ]
         }
 
