@@ -25,6 +25,7 @@
 # misc
 /ui/.sass-cache
 /ui/connect.lock
+/ui/package-lock.json
 /ui/coverage
 /ui/libpeerconnection.log
 /ui/npm-debug.log
