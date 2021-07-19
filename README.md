@@ -61,7 +61,7 @@ Documentation for Angular 10 [lives here](https://angular.io/docs).
 
 This section contains instruction on how to deploy and run Cloudworks in Gunicorn as a generic WSGI application.
 The instructions are tested on Ubuntu 18.04 and Ubuntu 21.04. Most likely these same instructions can be applied to older Ubuntu versions as well.
-Before running these command you need to update fabric env variables accordingly. The variables are located here `deploy/fabfile.py`.
+Before running these commands you need to update fabric env variables accordingly. The variables are located here `deploy/fabfile.py`.
 
 ## One-time setup
 
@@ -91,4 +91,4 @@ cd deploy/
 fab -u web production deploy_and_build
 ```
 
-NOTE: These commands are being executed with `-u web` flag which means that the person trying to execute these commands should have access to `web` user on the server.
+NOTE: These commands are being executed with `-u web` flag which means that the person trying to execute them should have access to `web` user on the server.
