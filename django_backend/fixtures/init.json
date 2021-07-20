@@ -1,0 +1,41 @@
+[
+{
+    "model": "account.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$IkEOEIgmmtWi$PrXKCzgHE2ArlEkfQpxK0xXB2NOl4WhLmrL+hHnR3qk=",
+        "last_login": null,
+        "is_superuser": true,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2021-07-20T10:52:06.943Z",
+        "email": "admin@example.com",
+        "full_name": "Admin",
+        "current_workspace": 1,
+        "config": "{}",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "domain.domain",
+    "pk": 1,
+    "fields": {
+        "name": "Test",
+        "description": "A simple test domain",
+        "is_active": true,
+        "created_at": "2020-11-04T16:22:48.617Z"
+    }
+},
+{
+
+    "model": "domain.token",
+    "pk": "111112ce4252e8345356a7h43je611b02a3266kn",
+    "fields": {
+        "domain": 1,
+        "created": "2021-07-20T10:52:06.943Z"
+    }
+}
+]

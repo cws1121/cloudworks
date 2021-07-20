@@ -17,7 +17,7 @@ def onetime_setup_root():
     run('apt-get update')
     run('apt-get install npm nodejs-legacy')
     run('pip install --upgrade pip')
-    run('pip install supervisor==3.3.3')
+    run('pip install supervisor==4.2.2')
     run('echo_supervisord_conf > /etc/supervisord.conf')
     run(r"printf '[include]\nfiles = /home/web/www/cloudworks/deploy/*.conf\n' >> /etc/supervisord.conf")
     run("grep '^web.*NOPASSWD: /usr/local/bin/supervisorctl' /etc/sudoers.d/sudo_commands "
