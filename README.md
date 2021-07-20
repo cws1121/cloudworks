@@ -11,7 +11,7 @@ Written in Python using the Django web framework.
 ## Clone the repo
 
 ```
-git clone https://github.com/nemanja1040/cloudworks
+git clone https://github.com/cws1121/cloudworks
 ```
 
 ## Setup virtualenv, requirements, front-end files
