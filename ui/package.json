@@ -89,6 +89,7 @@
     "@angular/language-service": "10.0.10",
     "@compodoc/compodoc": "1.0.1",
     "@fortawesome/fontawesome-free": "^5.2.0",
+    "@types/ckeditor": "^4.9.10",
     "@types/d3-color": "1.0.5",
     "@types/datatables.net": "^1.10.19",
     "@types/googlemaps": "^3.39.3",

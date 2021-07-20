@@ -48,7 +48,7 @@ def deploy_and_build():
             code_branch = getattr(env, 'code_branch', 'master')
             with cd('/home/web/www/cloudworks/ui'):
                 sudo('npm install')
-                sudo('node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build  --prod')
+                sudo('node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build  --prod --aot')
 
             with cd('/home/web/www/cloudworks/django_backend'):
                 sudo('git fetch origin')
