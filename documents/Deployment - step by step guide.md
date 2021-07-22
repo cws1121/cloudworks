@@ -1,6 +1,8 @@
 # 1 Introduction
 
-This guide explains how to initialize a Cloudworks webapp. All the steps included in the guide should be performed only once (during the project setup) and it will not be required to perform them for ongoing maintenance and deployments.
+This first part of the guide explains how to initialize a Cloudworks webapp. All the steps included in the *section 2* should be performed only once (during the project setup) and it will not be required to perform them for ongoing maintenance and deployments.
+
+The second part of the guide (*section 3*) contains all commands that should be executed for deploying updates (in the maintenance phase).
 
 A clean Ubuntu 20.04 distribution is assumed with nothing installed on it, except for packages that usually come as preinstalled (python, git..)
 
@@ -467,3 +469,48 @@ Generates a new user. The system will ask for the user's *email address*, *passw
 
 The URL of the admin console is: \
 [http://your_domain_name_or_ip/admin/](http://your_domain_name_or_ip/admin/)
+
+
+# 3 Deploying Updates
+
+
+## 3.1 Deploy and build
+
+
+if your wish to deploy updates and build frontend scripts you can run this command.
+
+
+```
+cd /home/web/www/cloudworks/ui/
+npm install
+node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build  --prod --aot
+```
+
+
+
+```
+cd /home/web/www/cloudworks/django_backend/
+git fetch origin
+git reset --hard origin/master
+python_env/bin/pip install -r requirements/prod-requirements.txt -r requirements/requirements.txt
+python_env/bin/python manage.py collectstatic --no-input
+python_env/bin/python manage.py migrate --no-input
+sudo supervisorctl restart all
+```
+
+
+## 3.2 Deploy backend updates only
+
+
+This section explains how to deploy updates on the backend only (without re-building angular scripts). It takes significantly less time than the process explained in section 3.1.
+
+
+```
+cd /home/web/www/cloudworks/django_backend/
+git fetch origin
+git reset --hard origin/master
+python_env/bin/pip install -r requirements/prod-requirements.txt -r requirements/requirements.txt
+python_env/bin/python manage.py collectstatic --no-input
+python_env/bin/python manage.py migrate --no-input
+sudo supervisorctl restart all
+```
