@@ -477,7 +477,7 @@ The URL of the admin console is: \
 ## 3.1 Deploy and build
 
 
-if your wish to deploy updates and build frontend scripts you can run this command.
+Deploying updates and building frontend scripts:
 
 
 ```
