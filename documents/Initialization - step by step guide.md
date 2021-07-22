@@ -446,7 +446,7 @@ Restart the app.
 
 ```
 cd /home/web/www/cloudworks/django_backend/
-python manage.py bootstrap_workspace --generate_token
+python_env/bin/python  manage.py bootstrap_workspace --generate_token
 ```
 
 
@@ -454,7 +454,7 @@ This command creates a workspace, *generate_token* flag is optional.The user wil
 
 
 ```
-python manage.py bootstrap_user --is_superuser
+python_env/bin/python  manage.py bootstrap_user --is_superuser
 ```
 
 
