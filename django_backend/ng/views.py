@@ -398,7 +398,7 @@ class ExportCaseData(GenericAPIView):
         font_style = xlwt.XFStyle()
         font_style.font.bold = True
 
-        columns = ['Time Read', 'Results', 'Classifier Eesults', 'Session Record']
+        columns = ['Time Read', 'Results', 'Classifier Results', 'Session Record']
 
         for col_num in range(len(columns)):
             ws.write(row_num, col_num, columns[col_num], font_style)
