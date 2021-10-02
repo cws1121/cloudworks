@@ -25,10 +25,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Case Data',
         link: '/a/pages/data/case-data',
       },
-      {
-        title: 'Heatmap Data',
-        link: '/a/pages/data/heatmap-data',
-      },
+      // {
+      //   title: 'Heatmap Data',
+      //   link: '/a/pages/data/heatmap-data',
+      // },
     ],
   },
 
