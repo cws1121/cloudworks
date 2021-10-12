@@ -181,6 +181,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_FROM_EMAIL = 'cloudworks-support@dimagi.com'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'cw_core/static/storage')
+MEDIA_URL = "/storage/"
+MEDIA_PATH = 'storage'
+
+
 try:
     from local_settings import *
 except ImportError:
