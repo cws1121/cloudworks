@@ -1,13 +1,13 @@
 <div class="row">
   <ngx-page-header
     title="Disease Surveillance"
-    description="Surveillance of positive cases of disease, percentages of positive and negative cases, and total readings."
-    icon="map-marked-alt"
-    pack="fas">
+    description="Surveillance of total readings, percentage of positive cases, percentage of agreements between user and classifier outputs."
+    icon="file-alt"
+    pack="far">
   </ngx-page-header>
 </div>
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-md-4">
     <ngx-status-box
       title="Total Readings"
       value="{{dashboardStats.total_readings}}"
@@ -23,15 +23,7 @@
   <!--icon="user"-->
   <!--pack="fa"></ngx-status-box>-->
   <!--</div>-->
-  <div class="col-md-3">
-    <ngx-status-box
-      title="Agreement"
-      value="{{dashboardStats.agreement}}"
-      [linesData]="linesData"
-      icon="check-square"
-      pack="far"></ngx-status-box>
-  </div>
-  <div class="col-md-3">
+  <div class="col-md-4">
     <ngx-status-box
       title="Positivity Rate"
       value="{{dashboardStats.positivity_rate}}"
@@ -39,14 +31,22 @@
       icon="exclamation-circle"
       pack="fas"></ngx-status-box>
   </div>
+  <div class="col-md-4">
+    <ngx-status-box
+      title="Agreement"
+      value="{{dashboardStats.agreement}}"
+      [linesData]="linesData"
+      icon="check-square"
+      pack="far"></ngx-status-box>
+  </div>
 </div>
 <!--<ngx-case-heatmap></ngx-case-heatmap>-->
 <div class="row">
   <ngx-page-header
-    title="Operations & Workforce"
-    description='Analyzing user workforce activity, frequency of user outputs matching classifier outputs (ie. "Agreement" or "Disagreement"), and how often results are expired or valid prior to taking the reading.'
-    icon="users"
-    pack="fa">
+    title="User output VS Classifier output"
+    description='Frequency of user outputs matching classifier outputs.'
+    icon="check-double"
+    pack="fas">
   </ngx-page-header>
 </div>
 <div class="row">
@@ -58,7 +58,14 @@
     </nb-card>
   </div>
 </div>
-
+<div class="row">
+  <ngx-page-header
+    title="Results validity"
+    description='Frequency of valid results (captured within an appropriate time frame) and invalid results.'
+    icon="hourglass-half"
+    pack="fas">
+  </ngx-page-header>
+</div>
 <div class="row">
   <div class="col-md-12">
     <nb-card>
